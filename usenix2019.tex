@@ -1,0 +1,246 @@
+% TEMPLATE for Usenix papers, specifically to meet requirements of
+%  USENIX '05
+% originally a template for producing IEEE-format articles using LaTeX.
+%   written by Matthew Ward, CS Department, Worcester Polytechnic Institute.
+% adapted by David Beazley for his excellent SWIG paper in Proceedings,
+%   Tcl 96
+% turned into a smartass generic template by De Clarke, with thanks to
+%   both the above pioneers
+% use at your own risk.  Complaints to /dev/null.
+% make it two column with no page numbering, default is 10 point
+
+% Munged by Fred Douglis <douglis@research.att.com> 10/97 to separate
+% the .sty file from the LaTeX source template, so that people can
+% more easily include the .sty file into an existing document.  Also
+% changed to more closely follow the style guidelines as represented
+% by the Word sample file. 
+
+% Note that since 2010, USENIX does not require endnotes. If you want
+% foot of page notes, don't include the endnotes package in the 
+% usepackage command, below.
+
+% This version uses the latex2e styles, not the very ancient 2.09 stuff.
+
+% Updated July 2018: Text block size changed from 6.5" to 7"
+
+\documentclass[letterpaper,twocolumn,10pt]{article}
+\usepackage{usenix2019,epsfig,endnotes}
+\begin{document}
+
+%don't want date printed
+\date{}
+
+%make title bold and 14 pt font (Latex default is non-bold, 16 pt)
+\title{\Large \bf Hacking Electronic Internet Connected Shifters }
+
+%for single author (just remove % characters)
+\author{
+{\rm Thomas Hansen}\\
+UW Madison
+\and
+{\rm Tolga Beser}\\
+UW Madison
+\and
+{\rm Cody (Chang-yen) Tsen}\\
+UW Madison
+% copy the following lines to add more authors
+% \and
+% {\rm Name}\\
+%Name Institution
+} % end author
+
+\maketitle
+
+% Use the following at camera-ready time to suppress page numbers.
+% Comment it out when you first submit the paper for review.
+\thispagestyle{empty}
+
+
+\subsection*{Abstract}
+
+
+\section{Introduction}
+
+% A paragraph of text goes here.  Lots of text.  Plenty of interesting text. \\
+
+% More fascinating text. Features\endnote{Remember to use endnotes, not footnotes!} galore, plethora of promises.\\
+
+Cyclists has seen the emergence of wireless shifting technologies over the past few years. While the technology existed as far back as the 1990s, adoption has accelerated in recent years, especially for high-end bikes. As we see the technology improve, these shifters have become faster and more precise than mechanical shifting, accelerating their adoption among riders.
+
+The wireless shifters use an assortment of communication technologies known as Personal Area Networks (PAN’s) such as Bluetooth. The use of these technologies opens the once closed off bicycle to security vulnerabilities. If an attacker can trigger extraneous shifts the cyclist can be thrown off their bike causing personal injury and the potential for even larger accidents (cyclists in pro races are tightly packed causing crashes to spread quickly). While security research focused on these electronic shifters is sparse there exists a plethora of work exploring security for various Personal Area Network enabled devices. A subset of wireless shifters utilizes Bluetooth as a communication protocol which has been shown to have security flaws in several implementations. One of the wireless shifting devices that we would like to examine is the SRAM eTAP system which utilizes their novel Airea Personal Area Network protocol which allows their components to communicate from up to a hundred meters away. This large distance could allow an attacker to communicate with their components from an unobservable location.
+
+\section{Related Work}
+
+Read papers, talk about what other people have done with other IoT devices. None of the headers are required, just ideas.
+
+
+There has been a lot of work into researching how to break wireless networks on embedded electronic devices, especially those where security is not the strong suit. Many simply use replay attacks and exploit design flaws with device authentication~\cite{Halperin}.
+
+\subsection{Contributions}
+
+Our major contribution to the field was bringing proper security testing to electronic sifters in the biking industry. These devices have become increasingly popular among professionals and performance cyclists, and there's no real analysis of which devices provide the best, if any, security to the biker.
+
+Some devices, like the STRAM eTap, claim 
+
+\subsection{Common Attacks Against IoT Devices}
+
+There are a variety of attack vectors 
+
+\subsection{Research in wireless attacks against other vehicles}
+
+
+% Some embedded literal typset code might 
+% look like the following :
+
+% {\tt \small
+% \begin{verbatim}
+% int wrap_fact(ClientData clientData,
+%               Tcl_Interp *interp,
+%               int argc, char *argv[]) {
+%     int result;
+%     int arg0;
+%     if (argc != 2) {
+%         interp->result = "wrong # args";
+%         return TCL_ERROR;
+%     }
+%     arg0 = atoi(argv[1]);
+%     result = fact(arg0);
+%     sprintf(interp->result,"%d",result);
+%     return TCL_OK;
+% }
+% \end{verbatim}
+% }
+
+\section{Devices}
+\subsection{Archer Components DX1}
+
+\subsection{Shimano Di2}
+
+
+\subsection{SRAM Force AXS}
+
+
+% you can also use the wonderful epsfig package...
+% \begin{figure}[t]
+% \begin{center}
+% \begin{picture}(300,150)(0,200)
+% \put(-15,-30){\special{psfile = images/piezospeaker.png hscale = 50 vscale = 50}}
+% \end{picture}\\
+% \end{center}
+% \caption{Wonderful Flowchart}
+% \end{figure}
+
+
+
+\section{Security Analysis}
+
+
+\subsection{}
+
+
+
+
+
+\section{Evaluation}
+
+
+\section{Recommendations}
+
+
+\section{Conclusions}
+
+% Example image
+% \begin{figure}[ht]
+% \begin{center}
+% \centering
+% \includegraphics[width=0.4\textwidth]{images/2msSig18.png}
+%
+% \label{fig:2msSignal}
+% \end{center}
+% \caption{Above is a signal generated with data, where each bit was transmitted over 2ms. This allowed us % to create high resolution bit maps where the bits are distinguishable from each other.}
+% \end{figure}
+
+
+
+
+
+\section{Future Work}
+
+
+
+
+{\normalsize \bibliographystyle{acm}
+% \bibliography{../common/bibliography}}
+\bibliography{references}}
+
+% \theendnotes
+
+\end{document}
+
+
+% An example table if we need to display data
+%
+% \begin{table}[]
+% \begin{tabular}{|l|l|r|}
+% \hline
+% \multicolumn{1}{|c|}{Action}        & Code   & Distance                      \\ \hline
+% Right turn                          & 0b0001    &                               \\ \hline
+% Left turn                           & 0b0010   &                               \\ \hline
+% Change lane (right)                 & 0b0011   &                               \\ \hline
+% Change lane (left)                  & 0b0100  &                               \\ \hline
+% Merge (right)                       & 0b0101  &                               \\ \hline
+% Merge (left)                        & 0b0110  &                               \\ \hline
+% Offramp                             & 0b0111  & \multicolumn{1}{l|}{}         \\ \hline
+% Temporarily change lanes (incident) & 0b1000 & \multicolumn{1}{l|}{}         \\ \hline
+% Speed (speeding up)                 & 0b1001 & \multicolumn{1}{l|}{Not used} \\ \hline
+% Speed (slowing down)                & 0b1010 & \multicolumn{1}{l|}{Not used} \\ \hline
+% \end{tabular}
+% \end{table}
+
+
+
+% Itemized list example
+%
+% \begin{itemize}
+% \item Example itemized list
+% \item Item 2
+% \end{itemize}
+
+
+% Equation Example:
+% 
+% $$ f = f_{0} \frac{c \pm v_{r}}{c \pm v_{t}} $$
+
+
+% Example Code
+%
+% {\tt \small
+% \begin{verbatim}
+
+% generateSignal(dataSet)
+%     lf = rand_low_freq
+%     hf = rand_low_freq + frequency_shift
+    
+%     bits = [1,0,1,0,0,1,dataSet]
+%     freqs = ones(length(bits)) .* lf
+    
+%     % assign 1 bits to high frequency
+%     for 1 = 1:length(bits)
+%         if bits(i) == 1
+%             freqs(i) = hf
+%         end
+%     end
+    
+%     % add frequencies to signal
+%     for i = 1:length(packet)
+%         t = 0:1/fs:bit_duration;
+%         f = sin(2*pi*packet(i).*t + phase);
+        
+%         % update phase
+%         phase = phase + 2*pi*packet(i)*bit_duration;
+        
+%         % add in next position
+%         ff(start_leg:end_leg) = f;
+%     end
+% end
+% \end{verbatim}}
