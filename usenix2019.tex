@@ -35,18 +35,18 @@
 
 %for single author (just remove % characters)
 \author{
-{\rm Thomas Hansen}\\
-UW Madison
-\and
-{\rm Tolga Beser}\\
-UW Madison
-\and
-{\rm Chang-yen (Cody) Tsen}\\
-UW Madison
-% copy the following lines to add more authors
-% \and
-% {\rm Name}\\
-%Name Institution
+  {\rm Thomas Hansen}\\
+  UW Madison
+  \and
+  {\rm Tolga Beser}\\
+  UW Madison
+  \and
+  {\rm Chang-Yen Tseng}\\
+  UW Madison
+  % copy the following lines to add more authors
+  % \and
+  % {\rm Name}\\
+  %Name Institution
 } % end author
 
 \maketitle
@@ -71,7 +71,7 @@ The wireless shifters use an assortment of communication technologies known as P
 
 \section{Related Work}
 
-There has been a lot of work into researching how to break wireless networks on embedded electronic devices, especially those where security is not the strong suit. Many simply use replay attacks and exploit design flaws with device authentication~\cite{Halperin}. Other paper look broadly on the state of wireless security, and analyse methods surrounding IoT devices and wireless communication methods~\cite{Choi}~\cite{Radek}. 
+There has been a lot of work into researching how to break wireless networks on embedded electronic devices, especially those where security is not the strong suit. Many simply use replay attacks and exploit design flaws with device authentication~\cite{Halperin}. Other paper look broadly on the state of wireless security, and analyse methods surrounding IoT devices and wireless communication methods~\cite{Choi}~\cite{Radek}.
 
 We attempted to take many of these findings and bring them to the electronic shifting space, and see what sorts of vulnerabilities we could find. To the best of our knowledge, no comprehensive research yet has existed on the security wireless shifters for bikes. We studied the Archer Components DX1, SRAM eTap, and Shimano Di2 for vulnerabilities.
 
@@ -87,15 +87,15 @@ Lastly is the impact on line. Biking is a sport where even more casual riders wi
 
 Our major contribution to the field was bringing proper security testing to electronic sifters in the biking industry. These devices have become increasingly popular among professionals and performance cyclists, and there's no real analysis of which devices provide the best, if any, security to the biker.
 
-Some devices, like the STRAM eTap, claim 
+Some devices, like the STRAM eTap, claim
 
 \subsection{Common Attacks Against IoT Devices}
 
-The security of IoT Devices is well documented and various devices have been studied in recent years. [cite papers here] Because the research body is so vast we will derive a few common attack vectors. The attack vectors that we will outline are Replay Attacks[cite], Denial of Service[cite], and Man in the Middle Attacks[cite]. 
+The security of IoT Devices is well documented and various devices have been studied in recent years. [cite papers here] Because the research body is so vast we will derive a few common attack vectors. The attack vectors that we will outline are Replay Attacks[cite], Denial of Service[cite], and Man in the Middle Attacks[cite].
 \\\\
-  (1) Replay Attacks are conducted by recording communication signals between IoT Devices and replaying them. Without a dynamic key(not sure if this wording is right) these false signals will be non-discernible from the legitimate commands. [cite] \\
-  (2) Denial of Service(DDOS) attacks have been shown to be effective against a variety of IoT devices. Lack of processing power among small IoT devices compounds their risks to such attacks. [cite] \\
-  (3) Man in The Middle(MITM) attacks intercept communications from IoT devices and proceed to act as the expected receiver/communicator.[cite]\\
+(1) Replay Attacks are conducted by recording communication signals between IoT Devices and replaying them. Without a dynamic key(not sure if this wording is right) these false signals will be non-discernible from the legitimate commands. [cite] \\
+(2) Denial of Service(DDOS) attacks have been shown to be effective against a variety of IoT devices. Lack of processing power among small IoT devices compounds their risks to such attacks. [cite] \\
+(3) Man in The Middle(MITM) attacks intercept communications from IoT devices and proceed to act as the expected receiver/communicator.[cite]\\
 
 
 \subsection{Research in wireless attacks against other vehicles}
@@ -181,9 +181,8 @@ The security of IoT Devices is well documented and various devices have been stu
 
 
 
-{\normalsize \bibliographystyle{acm}
-% \bibliography{../common/bibliography}}
-\bibliography{references}}
+ {\normalsize \bibliographystyle{acm}
+  \bibliography{references}}
 
 % \theendnotes
 
@@ -232,25 +231,25 @@ The security of IoT Devices is well documented and various devices have been stu
 % generateSignal(dataSet)
 %     lf = rand_low_freq
 %     hf = rand_low_freq + frequency_shift
-    
+
 %     bits = [1,0,1,0,0,1,dataSet]
 %     freqs = ones(length(bits)) .* lf
-    
+
 %     % assign 1 bits to high frequency
 %     for 1 = 1:length(bits)
 %         if bits(i) == 1
 %             freqs(i) = hf
 %         end
 %     end
-    
+
 %     % add frequencies to signal
 %     for i = 1:length(packet)
 %         t = 0:1/fs:bit_duration;
 %         f = sin(2*pi*packet(i).*t + phase);
-        
+
 %         % update phase
 %         phase = phase + 2*pi*packet(i)*bit_duration;
-        
+
 %         % add in next position
 %         ff(start_leg:end_leg) = f;
 %     end
