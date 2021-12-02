@@ -24,7 +24,7 @@
 % Updated July 2018: Text block size changed from 6.5" to 7"
 
 \documentclass[letterpaper,twocolumn,10pt]{article}
-\usepackage{usenix2019,epsfig,endnotes}
+\usepackage{usenix2019,epsfig,endnotes,algpseudocode,algorithm}
 \begin{document}
 
 %don't want date printed
@@ -114,7 +114,7 @@ The setup for the D1X is largely influenced by the bluetooth protocol (probably 
 
 
 \subsection{SRAM Force eTap AXS}
-The SRAM Force eTap AXS \cite{etap} is marketed toward professional, competitive bikers, and is price most premium out of all of our components. It works completely wirelessly like the Archer Components DX1, where there is no need for physical wire between the derailleur and the shifters. The SRAM is also the only one in our lineup that uses a proprietary protocol. The derailleur and the shifter communicate using the in-house AIREA protocol that operates within the 2.475Ghz frequency range. The system also provides Bluetooth for connecting to a smartphone and ANT+ to send information to a bicycle computer.
+The SRAM Force eTap AXS \cite{etap} is marketed toward professional, competitive bikers, and is price most premium out of all of our components. It works completely wirelessly like the Archer Components DX1, where there is no need for physical wire between the derailleur and the shifters. The SRAM is also the only one in our lineup that uses a proprietary protocol. The derailleur and the shifter communicate using the in-house AIREA protocol that operates within the 2.475Ghz frequency range. During a press event of this products, SRAM claims that  the protocol uses 128-bit rolling encryption and the system is "more secure than any cash machine".\cite{phillips2015SRAM} The system also provides Bluetooth for connecting to a smartphone and ANT+ to send information to a bicycle computer.
 
 To set up the SRAM system, the biker will have to click a button on the derailleur to enter pairing mode and then click the buttons on both shifters consecutively to finish the pairing process. To connect to a mobile phone, the biker will start an app on their phone, select their SRAM system, and long-press a button on the derailleur to authorize. Note that the app provides ways to remap each shifter to different operations (gear up, gear down), but the user is not able to shift the gear directly in the app.
 
@@ -135,7 +135,34 @@ We define a successful attack as making a victim's bike shift to an unintended g
 
 
 \subsection{SRAM Replay Attack}
+From the public FCC data, we know that the SRAM system's operating frequency is around 2.475GHz with a bandwidth of 3MHz, therefore, we use an SDR and the Universal Radio Hacker software\cite{urh}  to analyze the signals between the shifters and the derailleur. We find out that every time the shifter is pressed, it will emit a signal continuously for about 1.2 seconds and we didn't observe any ACK-like signal from the derailleur. We further discover that recording a gearing event signal from a shifter and replaying it will cause the derailleur to act accordingly. However, the recorded packet will be invalid whenever the biker presses the same side of the shifter again. We suspect that each shifter has its own internal counter that the derailleur keep track of so it can invalidate all previous packet after receiving a new one.
 
+However, the ability to replay the latest packet still opens up a way to attack the system. Based on the aforementioned vulnerability, we designed an algorithm specifically to attack an SRAM system during competition. We set up the SDR in a way that it will continuously switch between receiver and sender mode. During the receiver mode, the SDR will capture signals from the air and detect if it contains an SRAM gearing signal. If it does, it stores the new signal. Then it will send the saved signal (either the newly captured one or something stored before) to the air, causing the victim's bike to shift unintendedly. Under attack, when the victim shifts near the attacker, their derailleur will continuously shift to the highest or lowest, and even if the victim counter shift, they will find out that their system shift to the other extreme direction.
+
+Since SRAM does not release their firmware let alone source code, we do not have a reliable way to detect whether a signal segment contains an SRAM shifting packet or not. Therefore, we use a simple SVM classifier to solve the problem. We prerecorded several SRAM gearing signal segments and trained the model along with white noise and signal from other 2.4Ghz devices. In the end, we can reach 100\% accuracy in a lab environment.
+\begin{algorithm}
+\caption{SRAM replay attack algorithm}\label{alg:cap}
+\begin{algorithmic}[1]
+  \State $saved \gets None$
+  \While {$True$}
+    \State Set up SDR in receiver mode
+    \State $signal \gets$ get signal from SDR for 1 second
+    \If{$signal\;match\;SRAM\;pattern$} 
+        \State $saved \gets signal$
+    \State Setup SDR in sender mode
+    \State Send $saved$
+    \EndIf 
+  \EndWhile
+  \end{algorithmic}
+\end{algorithm}
+
+\paragraph{Potential Optimization}
+In the attack, if the victim happens to shift the same gear while the SDR is in sender mode, 
+subsequent attacks will fail. However, there are possible ways to optimize this attack.
+\begin{itemize}
+  \item \textbf{Use two SDRs one for receiving and one for sending.} Clearly, in this setting, the attacker will be able to notice the victim's signal while they are sending their malicious signal. However, the attacker's receiver will now be interfered by their sender, and special care needs to be done to avoid confusion.
+  \item \textbf{Trim the saved data.} During investigation, we found out that while the signal from the shifter lasted over 1 second, 50ms worth of data is enough to cause the derailleur to act. Therefore, it is possible that we can trim the data so that the SDR can send the data and be in sender mode for just a little amount if time, greatly reducing the chance of missing the victim's signal.
+\end{itemize}
 
 
 \section{Evaluation}
