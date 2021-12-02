@@ -104,7 +104,11 @@ The security of IoT Devices is well documented and various devices have been stu
 % \section{Threat Model}
 
 \section{Devices}
-\subsection{Archer Components DX1}
+\subsection{Archer Components D1X}
+
+The Archer D1X is a modular electronic shifting system that can be integrated into a wide array of derailleur-shifting groupsets. While the other two components groups that we study come with custom derailleurs that are wirelessly enabled the D1X focuses on integrating into existing systems. It is installed near the derailleur with the shifting cables routing through it. This allows the D1X to change the tensions of the shifting cables and therefore the gears. The electronic shifting box is wirelessly connected to the bluetooth enabled hand shifters which allow the users to send shifting signals. Of note, the D1X is the only component that we will study that utilizes the bluetooth protocol for communication between shifter and shifting box (akwardly worded need to change).
+
+The setup for the D1X is largely influenced by the bluetooth protocol (probably cite here). On first use, both the shifter and the shifting box need to be turned on with the power button pressed for specific lengths of time (fact check this). This allows the components to go through a one time pairing process, subsequent uses do not require this step. The user can also connect to the shifting box with their smartphone using the Archer mobile application. This is done by turning on the shifting box and going to the Archer application to pair (fact check if we press another button). Through the application the user can set shifting profiles allowing them to dictate specific gears that should be changed upon a shifting command. (Didn't want to talk about connection vulnerability here)
 
 \subsection{Shimano Di2}
 
