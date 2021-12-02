@@ -124,9 +124,17 @@ To set up the SRAM system, the biker will have to click a button on the deraille
 \section{Security Analysis}
 
 
-\subsection{Threat Model}
+
+\subsection{Threat Model \& Goal}
+We want to protect the safety of the bikers with such electronic shifters as sudden shifting when unintended may cause massive harm. We assume a scenario where bikers are joined with some malicious actors in a large-scale biking competition. In this scenario, we assume the adversary has access to the type of shifter the victim is using. The adversary can also be in close proximity with the victim before or during the competition, as a result, they can send arbitrary radio signals to the victim. We further assume the adversary can have a very short period of physical access with the victim's bike before the competition, such as when the victim is not looking.
+
+We define a successful attack as making a victim's bike shift to an unintended gear during the competition. We assume all competitors will do a quick test ride before the competition and don't consider denial of service before the competition as a successful attack since this does not introduce safety risks to the riders. For that reason, simple attacks such as cutting the victim's breaking cable or poking a hole in the victim's tire will be trivially easy to spot during the test ride and thus won't qualify as a successful attack.
 
 
+\subsection{Bluetooth Pairing Weekness}
+
+
+\subsection{SRAM Replay Attack}
 
 
 
