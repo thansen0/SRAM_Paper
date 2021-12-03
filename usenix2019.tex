@@ -57,8 +57,16 @@
 \thispagestyle{empty}
 
 
-\subsection*{Abstract}
+%-------------------------------------------------------------------------------
+\begin{abstract}
+  %-------------------------------------------------------------------------------
+  Electronic shifters have become increasingly accessible for professional and casual riders, but they bring new security threats and technical challenges. Riders own safety depend on their bikes and they need to perform at their best. Because of their importance, we decided to take 3 shifters, each with a different wireless configuration, and test them against a variety of wireless attacks attempting to manipulate the bikes behavior without the riders consent, either to hurt their performance in a race, strand the user, or force them to crash.
 
+  We limited ourselves to wireless attacks, and studied the components design to try and find attacks that would work best. We found the SRAM groupset was vulnerable to replay attacks, and the Archer Components allowed unverified users to connect to the device. The Shimano Di2 system which relies on wired shifting appeared to be the most secure, as it's the only system with a password which requires you to restart the device if you enter the password incorrectly. This would require brute force attacks to have access to the physical device and take a long time, even for technically advanced users.
+  \end{abstract}
+
+% alternate option, left-alights title without giving it a number
+% \subsection*{Abstract}
 
 \section{Introduction}
 
@@ -74,7 +82,7 @@ The wireless shifters use an assortment of communication technologies known as P
 
 There has been a lot of work into researching how to break wireless networks on embedded electronic devices, especially those where security is not the strong suit. Many simply use replay attacks and exploit design flaws with device authentication~\cite{Halperin}. Other papers look broadly on the state of wireless security, and analyse methods surrounding IoT devices and wireless communication methods~\cite{Choi}~\cite{Radek}.
 
-We attempted to take many of these findings and bring them to the electronic shifting space, and see what sorts of vulnerabilities we could find. To the best of our knowledge, no comprehensive research yet has existed on the security wireless shifters for bikes. We studied the Archer Components D1X, SRAM eTap, and Shimano Di2 for vulnerabilities.
+We attempted to take many of these findings and bring them to the electronic shifting space to see what sorts of vulnerabilities we could find. To the best of our knowledge, there is no comprehensive research on the security of wireless bike shifters. We studied the Archer Components D1X, SRAM eTap, and Shimano Di2 for vulnerabilities.
 
 \section{Potential Impact}
 
@@ -82,17 +90,16 @@ Electronic shifters in bikes have become extremely popular among high-end bikes.
 
 Competitions furthermore have high stakes. The Tour de France prize pool is 3.6 million AU, and many millions stand to be gained from partnerships and sponsors. Anyone who's able to impact a race in their favor may realize substantial financial gain, and we only expect the potential professional impact to expand with time.
 
-Lastly is the impact on line. Biking is a sport where even more casual riders will go for hours, and being able to disable a bike and strand someone somewhere can make them more vulnerable or otherwise threaten their wellbeing. It's because of all of these reasons we think the security of electronic shifters is an important topic that deserves research.
+Casual cyclists are also impacted, cycling is a sport where casual riders can go out for multi hour rides, and if their bike is disabled or their gears are switched unexpectedly a serious threat is posed to their wellbeing. Because of these reasons we think the security of electronic shifters is an important topic that deserves research.
 
 \subsection{Contributions}
 
-Our major contribution to the field was bringing proper security testing to electronic sifters in the biking industry. These devices have become increasingly popular among professionals and performance cyclists, and there's no real analysis of which devices provide the best, if any, security to the biker.
+Our major contribution to the field was analyzing the security landscape of wireless bike shifters. These devices have become increasingly popular among professionals and performance cyclists, and there's no real analysis of which devices provide the best, if any, security to the biker. We examine the threat landscape of various shifters according to our threat model and present attacks accordingly.
 
-Some devices, like the STRAM eTap, claim
 
 \subsection{Common Attacks Against IoT Devices}
 
-Due to the wireless nature and power limitations of many IoT devices, potential security flaws have been a concern for years~cite{HeXu}. Because the research body is so vast we will derive a few common attack vectors. The attack vectors that we will outline are Replay, Denial of Service, and Man in the Middle Attacks.
+Due to the wireless nature and power limitations of many IoT devices, potential security flaws have been a concern for years~\cite{HeXu}. Because the research body is so vast we will derive a few common attack vectors that we believe are most applicable to our study. The attack vectors that we will outline are Replay, Denial of Service, and Man in the Middle Attacks.
 
 \begin{itemize}
   \item \textbf{Replay Attacks} are conducted by recording communication signals between IoT Devices and replaying them. Usually defended against using some session key implementation, these false signals will be non-discernible from the legitimate commands.
@@ -102,14 +109,14 @@ Due to the wireless nature and power limitations of many IoT devices, potential 
 
 \subsection{Research in wireless attacks against other vehicles}
 
-The ushering in of new technology to bicycles is reminiscent of the automotive industries push towards intelligent systems. These changes, however, come with their own security issues which was highlighted when Chrysler recalled 1.4 million vehicles due to a remote hacking vulnerability that let adversaries control the vehicle and even cut the brakes ~\cite{ChryslerRecall}. Remote vehicle hacking has been demonstrated across multiple manufacturers (Tesla, BMW, Chrysler) ~\cite{Tesla}~\cite{BMW}~\cite{Chrysler}.  and research into the security of such systems is now commonplace [cite survey]. Systems utilized by intelligent vehicles such as vehicular ad hoc networks~\cite{ dibaei2019overview} (VAHN) enabling vehicle to vehicle communication have been studied and found to pose security risks~\cite{ SAKIZ201733}. With the rise of intelligent/wireless bicycle components the need to assess a security landscape of such components becomes paramount as seen by the changes in the automotive industry. 
+The ushering in of new technology to bicycles is reminiscent of the automotive industries push towards intelligent systems. These changes, however, come with security issues which was highlighted when Chrysler recalled 1.4 million vehicles due to a remote hacking vulnerability that let adversaries control the vehicle and even cut the brakes~\cite{ChryslerRecall}. Remote vehicle hacking has been demonstrated across multiple manufacturers (Tesla, BMW, Chrysler) ~\cite{Tesla}~\cite{BMW}~\cite{Chrysler} and research into the security of such systems is now commonplace~\cite{dibaei2019overview}. Systems utilized by intelligent vehicles such as vehicular ad hoc networks~\cite{SAKIZ201733} (VAHN)enabling vehicle to vehicle communication have been studied and found to pose security risks~\cite{ SAKIZ201733}. With the rise of intelligent/wireless bicycle components the need to assess a security landscape of such components becomes paramount as seen by the changes in the automotive industry. 
 
 % \section{Threat Model}
 
 \section{Devices}
 \subsection{Archer Components D1X}
 
-The Archer D1X~\cite{Archer} is a modular electronic shifting system that can be integrated into a wide array of derailleur-shifting groupsets. While the other two components groups that we study come with custom derailleurs that are wirelessly enabled, the D1X focuses on integrating into existing systems. It is installed near the derailleur with the shifting cables routing through it. This allows the D1X to change the tensions of the shifting cables and triggering gear changes. The electronic shifting box is connected to the hand shifters through Bluetooth allowing the user to send shifting signals. Of note, the D1X is the only component that we will study that utilizes the Bluetooth protocol for communication between the shifter and shifting box.
+The Archer D1X~\cite{Archer} is a modular electronic shifting system that can be integrated into a wide array of derailleur-shifting groupsets. While the other two components groups that we study come with custom derailleurs that are wirelessly enabled, the D1X focuses on integrating into existing systems. It is installed near the derailleur with the shifting cables routing through it. This allows the D1X to change the tensions of the shifting cables and trigger gear changes. The electronic shifting box is connected to the hand shifters through Bluetooth allowing the user to send shifting signals. Of note, the D1X is the only component that we will study that utilizes the Bluetooth protocol for communication between the shifter and shifting box.
 
 The setup for the D1X is largely influenced by the Bluetooth protocol. On first use, the hand shifter needs to pair with the users phone using the mobile application~\cite{ArcherApp}. After the user has paired the shifter they need to initiate a remote pairing through the application allowing the shifting box to pair with the hand shifter. This is a one time pairing process, subsequent uses do not require these steps. The user can connect to the shifting box through the Archer mobile application. This is done by turning on the shifting box and going to the Archer application to pair. Through the application the user can set shifting profiles allowing them to dictate specific gears that should be changed upon a shifting command. 
 
@@ -125,10 +132,10 @@ The Shimano Di2 (etube) shifters are a high performance bike system that's regul
   \end{center}
   \caption{The battery sits inside the seat post while the rear derailleur sits on the back wheel. The junctions sit at mount points in the frame/handlebar, and the wireless unit floats freely in the frame}
 \end{figure}
-The phone app, E-TUBE, seems to be more robust than the archer components model. Once connected to a phone, the Di2 system will no longer shift using the hand shifter and other phone users can't boot the initial phone user off without the initial phone user disconnecting first. It also disallows users from using the device while connected to Bluetooth, so although this could be used to deny service it will allow bikers to know immediately when an attacker connects to their device instead of allowing an attacker to sign on and adjust the shifter alignment using the default app. Most significantly, however, the Di2 system has the option for up to a 6 digit pin so long as the final pin isn't a 0, or 900k combinations. This pin automatically saves on the device once you enter it and is visible in plain text to anyone using the phone. A user who enters a wrong passkey on the phone app receives an error message and forces the user to restart the Di2 junction, and this appears to be a feature of the junction. Because of this, brute forcing your way in if the user has a passcode set is effectively impossible.
+
 
 \subsection{SRAM Force eTap AXS}
-The SRAM Force eTap AXS \cite{etap} is marketed toward professional, competitive bikers, and is price most premium out of all of our components. It works completely wirelessly like the Archer Components D1X, where there is no need for physical wire between the derailleur and the shifters. The SRAM is also the only one in our lineup that uses a proprietary protocol. The derailleur and the shifter communicate using the in-house AIREA protocol that operates within the 2.475Ghz frequency range. During a press event of this products, SRAM claims that  the protocol uses 128-bit rolling encryption and the system is "more secure than any cash machine".\cite{phillips2015SRAM} The system also provides Bluetooth for connecting to a smartphone and ANT+ to send information to a bicycle computer.
+The SRAM Force eTap AXS \cite{etap} is marketed toward professional, competitive bikers, and is priced the most premium out of all of our components. It works completely wirelessly like the Archer Components D1X meaning there is no need for physical wire between the derailleur and the shifters. The SRAM is also the only one in our lineup that uses a proprietary protocol. The derailleur and the shifter communicate using the in-house AIREA protocol that operates within the 2.475Ghz frequency range. During a press event of this products, SRAM claims that  the protocol uses 128-bit rolling encryption and the system is "more secure than any cash machine".\cite{phillips2015SRAM} The system also provides Bluetooth for connecting to a smartphone and ANT+ to send information to a bicycle computer.
 
 To set up the SRAM system, the biker will have to click a button on the derailleur to enter pairing mode and then click the buttons on both shifters consecutively to finish the pairing process. To connect to a mobile phone, the biker will start an app on their phone, select their SRAM system, and long-press a button on the derailleur to authorize. Note that the app provides ways to remap each shifter to different operations (gear up, gear down), but the user is not able to shift the gear directly in the app.
 
@@ -140,9 +147,9 @@ To set up the SRAM system, the biker will have to click a button on the deraille
 
 
 \subsection{Threat Model \& Goal}
-We want to protect the safety of the bikers with such electronic shifters as sudden shifting when unintended may cause massive harm. We assume a scenario where bikers are joined with some malicious actors in a large-scale biking competition. In this scenario, we assume the adversary has access to the type of shifter the victim is using. The adversary can also be in close proximity with the victim before or during the competition, as a result, they can send arbitrary radio signals to the victim. We further assume the adversary can have a very short period of physical access with the victim's bike before the competition, such as when the victim is going to a restroom.
+We want to protect the safety of the bikers with such electronic shifters as sudden shifting when unintended may cause harm. We assume a scenario where bikers are joined with some malicious actors in a large-scale biking competition. In this scenario, we assume the adversary has access to the type of shifter the victim is using. The adversary can also be in close proximity with the victim before or during the competition, as a result, they can send arbitrary radio signals to the victim. We further assume the adversary can have a very short period of physical access with the victim's bike before the competition, such as when the victim is going to a restroom.
 
-We define a successful attack as making a victim's bike shift to an unintended gear during competition. We will also define a successful attack as making a victims bike unable to respond to legitimate shifting commands during competition. We assume all competitors will do a quick test ride before the competition and don't consider denial of service before the competition as a successful attack since this does not introduce safety risks to the riders. For that reason, simple attacks such as cutting the victim's breaking cable or poking a hole in the victim's tire will be trivially easy to spot during the test ride and thus won't qualify as a successful attack.
+We define a successful attack as making a victim's bike shift to an unintended gear during competition. We will also define a successful attack as making a victims bike be unable to respond to legitimate shifting commands during competition. We assume all competitors will do a quick test ride before the competition and don't consider denial of service before the competition as a successful attack since this does not introduce safety risks to the riders. For that reason, simple attacks such as cutting the victim's breaking cable or poking a hole in the victim's tire will be trivially easy to spot during the test ride and thus won't qualify as a successful attack.
 
 
 \subsection{Bluetooth Pairing Weakness}
@@ -158,7 +165,7 @@ We define a successful attack as making a victim's bike shift to an unintended g
   \label{tab:btauth}
 \end{table}
 
-All of our components provide Bluetooth connectivity and companion mobile application, so the user can configure or shift from their mobile phone. Like all Bluetooth products, a pairing process must be done before the user can interact with their device. Preventing unintended users to connect is extremely important in a biking products than traditional bluetooth devices since a sudden change of gear when the biker is climbing or performing stunts can cause injuries to the riders. Our line up of components employ various degrees of authentication to prevent this from happenning. ~\ref{tab:btauth}
+All of our components provide Bluetooth connectivity and have companion mobile applications, so the user can configure or shift from their mobile phone. Like all Bluetooth products, a pairing process must be done before the user can interact with their device. Preventing unintended users from connecting is more important in biking shifters than traditional bluetooth devices since a sudden change of gear when the biker is climbing or performing stunts can cause injuries to the riders. In addition, changes made to the gear settings from mobile applications aren't visible outside of the application. Our line up of components employ various degrees of authentication to prevent this from happenning. Table \ref{tab:btauth} summarize the components' authentication methods and their mobile apps' capabilities.
 
 \paragraph{Archer D1X}
 The Archer D1X groupset relies on the Bluetooth communication protocol for shifter/shifting-box communication along with communication with the mobile application. Once the shifting box is powered on anybody with the Archer mobile application can pair with it. There are no pairing authentication steps and this lack of validation means that those other than the legitimate owner can connect. Once an adversary has paired with the shifting box they can create custom gear-switch settings that would be harmful to the user. An adversary could swap the higher and lower gear switch buttons causing the cyclist to experience unexpected dangerous behavior. Gear setting changes made through the application are invisible to the cyclist and there is no mechanism of alerting the owner of such changes. The Bluetooth protocol only allows for one active device at a time meaning that only one device can be connected to the shifting box at a time. If an adversary were to pair with the shifting box through the Archer mobile application during a competition they would be able to block all hand shifter communication thus ceasing functionality.  
@@ -166,31 +173,39 @@ The Archer D1X groupset relies on the Bluetooth communication protocol for shift
 \paragraph{Shimano}
 Shimano has one of the most robust pairing systems of the tested gear sets. Although it defaults to no password, users can add up to a 6 digit password which prevents unauthorized users from logging on, and failed sign on attempts require a restart of the device, preventing brute force attacks or repeated sign on attempts from malicious users. Although this will deny bluetooth service to the owner until they restart, they are still able to shift the bike using the shifter even after the bluetooth users get locked out.
 
+\begin{figure}[ht]
+  \begin{center}
+    \centering
+    \includegraphics[width=130pt]{images/SRAMbtn.png}
+    \label{fig:srambtn}
+  \end{center}
+  \caption{Exposed SRAM pairing button \cite{james_sram_2021}}
+\end{figure}
+
+
 \paragraph{SRAM}
 The SRAM uses a more traditional pairing mechanism where the app will prompt the user to physically press a button on the derailleur to authorize a connection. The system can also only pair with one smartphone at a time, therefore, when another device wants to connect, a physical button press is required even if that device had paired with the system before. While this is the industry standard of such Bluetooth pairing process, several key differences make the solution not ideal for an electronic shifter.
 
 \begin{itemize}
-  \item \textbf{Highly possible to expose to an attacker} Unlike some Bluetooth personal belongings, such as a wireless headset, where the owner is expected to be always in possession of the device, bikes can be parked in a public space. Since the SRAM's pairing button is exposed, the attacker will be able to pair with the bike in very a short period.
+  \item \textbf{Highly possible to expose to an attacker} Unlike some Bluetooth personal belongings, such as a wireless headset, where the owner is expected to be always in possession of the device, bikes can be parked in a public space. Since the SRAM's pairing button is exposed as shown in Figure 2, the attacker will be able to pair with the bike in very a short period.
   \item \textbf{Not immediately noticable} Most Bluetooth devices use Bluetooth for their primary function. If the authorized device changes, the device owner will be locked out and immediately initiate a re-pair process, rendering the attacker’s device useless. However, in the case of an electronic shifter, the shifter is fully functional without any Bluetooth connection. Therefore, it will be very easy to overlook during a pre-ride checking and the attacker can choose a most dangerous time to send malicious command to the shifter.
 \end{itemize}
 
 Even though SRAM's app does not provide direct shifting capabilities, they also provide a way to swap the higher and lower gear switch, the adversary can wait for the exact moment to swap the switch thus poses threat to the rider. Furthermore, the system will not actively alert the owner that a pairing event had happened. The only way for the owner to notice is when they want to configure their bike as the app will prompt the user to re-pair to the bike. Even then, the user might not understand that their bike had been paired with other devices and not implement any safety measure.
 
-\subsection{SRAM Replay Attack}
-From the public FCC data, we know that the SRAM system's operating frequency is around 2.475GHz with a bandwidth of 3MHz, therefore, we use an SDR and the Universal Radio Hacker software\cite{urh}  to analyze the signals between the shifters and the derailleur. We find out that every time the shifter is pressed, it will emit a signal continuously for about 1.2 seconds and we didn't observe any ACK-like signal from the derailleur. We further discover that recording a gearing event signal from a shifter and replaying it will cause the derailleur to act accordingly. However, the recorded packet will be invalid whenever the biker presses the same side of the shifter again. We suspect that each shifter has its own internal counter that the derailleur keep track of so it can invalidate all previous packet after receiving a new one.
-
-However, the ability to replay the latest packet still opens up a way to attack the system. Based on the aforementioned vulnerability, we designed an algorithm specifically to attack an SRAM system during competition. We set up the SDR in a way that it will continuously switch between receiver and sender mode. During the receiver mode, the SDR will capture signals from the air and detect if it contains an SRAM gearing signal. If it does, it stores the new signal. Then it will send the saved signal (either the newly captured one or something stored before) to the air, causing the victim's bike to shift unintendedly. 
-
-
-
 \begin{figure}[ht]
   \begin{center}
     \centering
-    \includegraphics[width=0.4\textwidth]{images/replay.png}
+    \includegraphics[width=230pt]{images/replay.png}
     \label{fig:Replay}
   \end{center}
   \caption{Visual depiction of an adversarial replay attack}
 \end{figure}
+
+\subsection{SRAM Replay Attack}
+From public FCC data, we know that the SRAM system's operating frequency is around 2.475GHz with a bandwidth of 3MHz, therefore, we use an SDR and the Universal Radio Hacker software\cite{urh}  to analyze the signals between the shifters and the derailleur. We find out that every time the shifter is pressed, it will emit a signal continuously for about 1.2 seconds and we didn't observe any ACK-like signal from the derailleur. We further discover that recording a gearing event signal from a shifter and replaying it will cause the derailleur to act accordingly. However, the recorded packet will be invalid whenever the biker presses the same side of the shifter again. We suspect that each shifter has its own internal counter that the derailleur keep track of so it can invalidate all previous packet after receiving a new one.
+
+However, the ability to replay the latest packet still opens up a way to attack the system. Based on the aforementioned vulnerability, we designed an algorithm specifically to attack an SRAM system during competition. We set up the SDR in a way that it will continuously switch between receiver and sender mode. During the receiver mode, the SDR will capture signals from the air and detect if it contains an SRAM gearing signal. If it does, it stores the new signal. Then it will send the saved signal (either the newly captured one or something stored before) to the air, causing the victim's bike to shift unintendedly. 
 
 Since SRAM does not release their firmware let alone source code, we do not have a reliable way to detect whether a signal segment contains an SRAM shifting packet or not. Therefore, we use a simple SVM classifier to solve the problem. We prerecorded several SRAM gearing signal segments and trained the model along with white noise and signal from other 2.4Ghz devices. In the end, we can reach 100\% accuracy in a lab environment.
 
@@ -222,11 +237,7 @@ subsequent attacks will fail. However, there are possible ways to optimize this 
 
 \subsection{Archer and Shimano Replay Attacks}
 
-Both the Shimano and Archer D1X may be suseptible to replay attacks, however we haven't been able to properly test this to do the high rate of frequency hopping in Bluetooth exceeding the maximum bandwidth of our SDR, leading to incomplete packet sniffing. We will be borrowing an Ubertooth One that we hope is capable of capturing Bluetooth packets and testing replay attacks in the comming weeks, and shoud have some results before our presentation.
-While Bluetooth protocols enable a wide array of integrations such as smartphone connections, they also require strict authentication enforcement. While the Shimano Di2 system enforced a pin requirement to connect via smartphone the Archer D1X didn’t and was completely open for adversaries to pair with. The Bluetooth protocol also limits active connections to one device at a time enabling adversaries to shut out legitimate users and in the case of the Archer D1X deny shifting capabilities. Once an adversary has paired with a component, they can change the various shifting settings without the user being notified. Due to the nature of shifting systems these changes won’t be noticed until the user attempts a shift creating a dangerous situation.
-
-As detailed in section 5.3 we found that the AIREA protocol implemented by the SRAM groupset was vulnerable to replay attacks. Though SRAM claims to utilize 128 bit rolling key encryption our attacks show that their systems are vulnerable. If utilized by an adversary during an event such as a cycling competition dangerous conditions could be created by even one rider losing balance due to unexpected shifting.
-
+Both the Shimano and Archer D1X may be suseptible to replay attacks, however we haven't been able to properly test this due to the high rate of frequency hopping in Bluetooth exceeding the maximum bandwidth of our SDR, leading to incomplete signal capture. We will be borrowing an Ubertooth One that we hope is capable of capturing Bluetooth packets and testing replay attacks in the coming weeks.
 
 \section{Recommendations}
 
@@ -251,7 +262,7 @@ The security landscape of wireless shifters remains largely unstudied and there 
 
 \section{Contributions}
 
-Most of the work/attack planning was done in meetings. Because we had several components we split them up among the group, Cody did most of the work with the SRAM, Thomas worked on the Shimano, and Tolga worked on the Archer components. We wrote the paper together and everyone played with the HackRF One radio.
+Most of the work and attack planning was done in group meetings, although we were still able to split a lot of the work up by component. Cody worked on the SRAM, Thomas worked on the Shimano, and Tolga worked on the Archer components. We wrote the paper together and everyone played with the HackRF One radio.
 
 % \theendnotes
 
