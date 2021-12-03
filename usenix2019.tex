@@ -112,6 +112,18 @@ The setup for the D1X is largely influenced by the bluetooth protocol (probably 
 
 \subsection{Shimano Di2}
 
+The Shimano Di2 (ultegra) model shifters are a high performance bike part that's regularly used by professional cyclists and consumers. It's an electronic wired component, with an added wireless unit, the EW-WU111, which can be used to connect to a phone app over bluetooth. The wireless unit sits inside the frame, and can be added or removed without change to the shifters functionality.
+
+\begin{figure}[ht]
+\begin{center}
+\centering
+\includegraphics[width=0.4\textwidth]{images/IMG_5264_Di2.jpg}
+\label{fig:Di2Setup}
+\end{center}
+\caption{The battery sits inside the seat post while the rear derailleur sits on the back wheel. The junctions sit at mount points in the frame/handlebar, and the wireless unit floats freely in the frame}
+\end{figure}
+
+The phone app, E-TUBE, seems to be more robust than the archer components model. Once connected to a phone, the Di2 system will no longer shift using the hand shifter and other phone users can't boot the initial phone user off without the initial phone user disconnecting first. It also disallows users from using the device while connected to bluetooth, so although this could be used to deny service it will primarily allow bikers to know immediately when an attacker connects to their device instead of allowing an attacker to sign on and adjust the shifter alignment using the default app. Most significantly, however, the Di2 system has the option for up to a 6 digit pin so long as the final pin isn't a 0, or 2.56E12 combinations. This pin automatically saves on the device once you enter it and is visible in plain text to anyone using the phone. A user who enters a wrong passkey on the phone app receives an error message and forces the user to restart the Di2 junction, and from what we can tell this is a feature of the junction (we tested on an EW-RS910 Junction A). Because of this, brute forcing your way in if the user has a passcode set is effectively impossible.
 
 \subsection{SRAM Force eTap AXS}
 The SRAM Force eTap AXS \cite{etap} is marketed toward professional, competitive bikers, and is price most premium out of all of our components. It works completely wirelessly like the Archer Components DX1, where there is no need for physical wire between the derailleur and the shifters. The SRAM is also the only one in our lineup that uses a proprietary protocol. The derailleur and the shifter communicate using the in-house AIREA protocol that operates within the 2.475Ghz frequency range. During a press event of this products, SRAM claims that  the protocol uses 128-bit rolling encryption and the system is "more secure than any cash machine".\cite{phillips2015SRAM} The system also provides Bluetooth for connecting to a smartphone and ANT+ to send information to a bicycle computer.
