@@ -173,6 +173,10 @@ The Archer D1X groupset relies on the Bluetooth communication protocol for shift
 \paragraph{Shimano}
 Shimano has one of the most robust pairing systems of the tested gear sets. Although it defaults to no password, users can add up to a 6 digit password which prevents unauthorized users from logging on, and failed sign on attempts require a restart of the device, preventing brute force attacks or repeated sign on attempts from malicious users. Although this will deny bluetooth service to the owner until they restart, they are still able to shift the bike using the shifter even after the bluetooth users get locked out.
 
+Using an Ubertooth One we were able to catch pairing packets (which were given the device name EWWU111) however we weren't able to successfully replay packets and make the gear shift.
+
+It also features updatable firmware through the app, where it first downloads the firmware onto the app, and then uploads it to the device. Firmware can be updated indidvidually for each device. Although we didn't test firmware attacks, this suggests it should be possible to spoof the source upload your own firmware onto the device.
+
 \begin{figure}[ht]
   \begin{center}
     \centering
@@ -181,7 +185,6 @@ Shimano has one of the most robust pairing systems of the tested gear sets. Alth
   \end{center}
   \caption{Exposed SRAM pairing button \cite{james_sram_2021}}
 \end{figure}
-
 
 \paragraph{SRAM}
 The SRAM uses a more traditional pairing mechanism where the app will prompt the user to physically press a button on the derailleur to authorize a connection. The system can also only pair with one smartphone at a time, therefore, when another device wants to connect, a physical button press is required even if that device had paired with the system before. While this is the industry standard of such Bluetooth pairing process, several key differences make the solution not ideal for an electronic shifter.
