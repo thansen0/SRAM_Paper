@@ -116,7 +116,7 @@ The ushering in of new technology to bicycles is reminiscent of the automotive i
 \section{Devices}
 \subsection{Archer Components D1X}
 
-The Archer D1X~\cite{Archer} is a modular electronic shifting system that can be integrated into a wide array of derailleur-shifting groupsets. While the other two components groups that we study come with custom derailleurs that are wirelessly enabled, the D1X focuses on integrating into existing systems. It is installed near the derailleur with the shifting cables routing through it. This allows the D1X to change the tensions of the shifting cables and trigger gear changes. The electronic shifting box is connected to the hand shifters through Bluetooth allowing the user to send shifting signals. Of note, the D1X is the only component that we will study that utilizes the Bluetooth protocol for communication between the shifter and shifting box.
+The Archer D1X~\cite{Archer} is a modular electronic shifting system that can be integrated into a wide array of derailleur-shifting groupsets. While the other two components groups that we study come with custom derailleurs that are wirelessly enabled, the D1X focuses on integrating into existing systems. It is installed near the derailleur with the shifting cables routing through it. This allows the D1X to change the tensions of the shifting cables and trigger gear changes. The electronic shifting box is connected to the hand shifters through Bluetooth allowing the user to send shifting signals. Of note, the D1X is the only component that we will study that utilizes the Bluetooth protocol for communication between the shifter and shifting box. The Archer D1X does not support any firmware updates.
 
 The setup for the D1X is largely influenced by the Bluetooth protocol. On first use, the hand shifter needs to pair with the users phone using the mobile application~\cite{ArcherApp}. After the user has paired the shifter they need to initiate a remote pairing through the application allowing the shifting box to pair with the hand shifter. This is a one time pairing process, subsequent uses do not require these steps. The user can connect to the shifting box through the Archer mobile application. This is done by turning on the shifting box and going to the Archer application to pair. Through the application the user can set shifting profiles allowing them to dictate specific gears that should be changed upon a shifting command.
 
@@ -194,15 +194,15 @@ The SRAM uses a more traditional pairing mechanism where the app will prompt the
 
 Even though SRAM's app does not provide direct shifting capabilities, they also provide a way to swap the higher and lower gear switch, the adversary can wait for the exact moment to swap the switch thus poses threat to the rider. Furthermore, the system will not actively alert the owner that a pairing event had happened. The only way for the owner to notice is when they want to configure their bike as the app will prompt the user to re-pair to the bike. Even then, the user might not understand that their bike had been paired with other devices and not implement any safety measure.
 
-\subsection{Archer Replay Attacks}
+\subsection{Archer Packet Examination}
 
-The Archer D1X seems as though it may be suseptible to replay attacks, however we haven't been able finish testing this. During setup, only the reciever near the derailleur produces a bluetooth pairing packet, and in our case it had a MAC address of 00:A0:50:89:46:CA, which is non-standard. Particularly of note devices aren't supposed to start with "00", and this created a number of trivial problems while trying to listen to packets and replay them (as some software will tell you this is an illegal address instead of listening/sending to the address).
+Using an Ubertooth One we were able to capture and examine the pairing packets between the mobile application and the shifting box as well as the packets sent by the hand shifter to the shifting box. After the initial pairing process, the BLE packets become encrypted and the data in the packets is unreadable.
 
-Using the Ubertooth we were able to listen to and record packets, and as advertised these packets were enrypted, both to the device from a phone and between the shifter and reciever near the derailleur.
+During our examination of the mobile applications sent packets we were hindered by the various security measures that Apple has implemented in its Bluetooth protocols\cite{appleblesecurity}. This includes spoofing the MAC address and changing it periodically making it difficult to discern which packets are meant for the Archer D1X shifter. 
 
-Additionally of interest the software isn't updatable over the internet, preventing spoofing the firmware remotely.
+While we did not execute a DOS attack on either Archer component we can assume that it would be successful since prior research has shown success against all devices when large L2CAP packets are flooded\cite{bluesmack}. The only mitigations that currently exist against this attack are disabling Bluetooth when not in use and setting your device to non-discoverable mode. However, using the Ubertooth we can find the devices MAC when it is operating in non-discoverable mode. 
 
-\subsection{Shimano Replay Attacks}
+\subsection{Shimano Packet Examination}
 
 Using an Ubertooth One we were able to catch pairing packets (which were given the device name EWWU111) however we weren't able to successfully replay packets and make the gear shift. When viewing them, all the packets were encrypted as well, even when we had no passcode.
 
