@@ -175,15 +175,6 @@ Shimano has one of the most robust pairing systems of the tested gear sets. Alth
 
 It also features updatable firmware through the app, where it first downloads the firmware onto the app, and then uploads it to the device. Firmware can be updated indidvidually for each device. Although we didn't test firmware attacks, this suggests it should be possible to spoof the source upload your own firmware onto the device.
 
-\begin{figure}[ht]
-  \begin{center}
-    \centering
-    \includegraphics[width=130pt]{images/SRAMbtn.png}
-    \label{fig:srambtn}
-  \end{center}
-  \caption{Exposed SRAM pairing button \cite{james_sram_2021}}
-\end{figure}
-
 \paragraph{SRAM}
 The SRAM uses a more traditional pairing mechanism where the app will prompt the user to physically press a button on the derailleur to authorize a connection. The system can also only pair with one smartphone at a time, therefore, when another device wants to connect, a physical button press is required even if that device had paired with the system before. While this is the industry standard of such Bluetooth pairing process, several key differences make the solution not ideal for an electronic shifter.
 
@@ -195,24 +186,42 @@ The SRAM uses a more traditional pairing mechanism where the app will prompt the
 \begin{figure}[ht]
   \begin{center}
     \centering
+    \includegraphics[width=130pt]{images/SRAMbtn.png}
+    \label{fig:srambtn}
+  \end{center}
+  \caption{Exposed SRAM pairing button \cite{james_sram_2021}}
+\end{figure}
+
+Even though SRAM's app does not provide direct shifting capabilities, they also provide a way to swap the higher and lower gear switch, the adversary can wait for the exact moment to swap the switch thus poses threat to the rider. Furthermore, the system will not actively alert the owner that a pairing event had happened. The only way for the owner to notice is when they want to configure their bike as the app will prompt the user to re-pair to the bike. Even then, the user might not understand that their bike had been paired with other devices and not implement any safety measure.
+
+\subsection{Archer Replay Attacks}
+
+The Archer D1X seems as though it may be suseptible to replay attacks, however we haven't been able finish testing this. During setup, only the reciever near the derailleur produces a bluetooth pairing packet, and in our case it had a MAC address of 00:A0:50:89:46:CA, which is non-standard. Particularly of note devices aren't supposed to start with "00", and this created a number of trivial problems while trying to listen to packets and replay them (as some software will tell you this is an illegal address instead of listening/sending to the address).
+
+Using the Ubertooth we were able to listen to and record packets, and as advertised these packets were enrypted, both to the device from a phone and between the shifter and reciever near the derailleur.
+
+Additionally of interest the software isn't updatable over the internet, preventing spoofing the firmware remotely.
+
+\subsection{Shimano Replay Attacks}
+
+Using an Ubertooth One we were able to catch pairing packets (which were given the device name EWWU111) however we weren't able to successfully replay packets and make the gear shift. When viewing them, all the packets were encrypted as well, even when we had no passcode.
+
+We also attempted to break the 6-pin passcode using a tool called Crackle. Crackle exploits a design flaw in bluetooth pairing process which is supposed to allow an attacker to brute force a temporary key relativly quickly using the packets found while listening to a legitamate transmission. To do this, we saved .pcap files of the pairing packets and attempted to run them through crackle, however we think the Shimano Di2 system classifies Mrand and Srand values irregularly, as after repeated attempts we weren't able to crack it.
+
+DON'T PUBLISH THIS PARAGRAPH AS FINAL DRAFT, DOS HASN'T WORKED YET, THESE ARE MY ASSUMPTIONS Lastly we attempted to confuse the device using a DoS attack. Although all wireless devices are suseptible to DoS, one thought we had was that if we flood the wireless unit with ping requests, it might either flood the CAN bus network or prevent other CAN bus packets from passing between the wireless unit and other units (such as the shifter and derailure).. To do this we ran blue doser against the unit, and tried moving the wireless unit to two different positions on the Di2 network. In both cases we weren't able to prevent manual shifts from shifter, however it did disconnect our phones as expected.
+
+These results suggest to us that the Shimano Di2 is one of the safest electronic systems you can use today.
+
+\subsection{SRAM Replay Attack}
+
+\begin{figure}[ht]
+  \begin{center}
+    \centering
     \includegraphics[width=230pt]{images/replay.png}
     \label{fig:Replay}
   \end{center}
   \caption{Visual depiction of an adversarial replay attack}
 \end{figure}
-
-Even though SRAM's app does not provide direct shifting capabilities, they also provide a way to swap the higher and lower gear switch, the adversary can wait for the exact moment to swap the switch thus poses threat to the rider. Furthermore, the system will not actively alert the owner that a pairing event had happened. The only way for the owner to notice is when they want to configure their bike as the app will prompt the user to re-pair to the bike. Even then, the user might not understand that their bike had been paired with other devices and not implement any safety measure.
-
-
-\subsection{Archer Replay Attacks}
-
-The Archer D1X seems as though it may be suseptible to replay attacks, however we haven't been able finish testing this. Durring setup, only the base reciever produces a bluetooth pairing packet, which seems to start with a MAC address of 00:A0, which is non-standard. The software additionally isn't updatable as far as we can tell.
-
-\subsection{Shimano Replay Attacks}
-
-Using an Ubertooth One we were able to catch pairing packets (which were given the device name EWWU111) however we weren't able to successfully replay packets and make the gear shift.
-
-\subsection{SRAM Replay Attack}
 
 \paragraph{SRAM ARIEA protocol} From public FCC data, we know that the SRAM system's operating frequency is around 2.475GHz with a bandwidth of 3MHz, therefore, we use an SDR and the Universal Radio Hacker software\cite{urh} to analyze the signals between the shifters and the derailleur. During the investigation, we reveal some facts about the protocol.
 \begin{itemize}
@@ -283,15 +292,15 @@ During the research we used the following firmware versions:
   \item Archer D1X Phone App 1.8, No Visible Firmware version
   \item Shimano E-TUBE Phone App 5.0.2
   \item Shimano Di2 RD-R8050-GS 3.3.0
-  \item Shimano ST-R8050 3.2.1
-  \item Shimano EW-RS910 3.1.2
-  \item Shimano EW-WU111 3.1.2
-  \item Shimano BT-DN110 4.4.4 
+  \item Shimano Di2 ST-R8050 3.2.1
+  \item Shimano Di2 EW-RS910 3.1.2
+  \item Shimano Di2 EW-WU111 3.1.2
+  \item Shimano Di2 BT-DN110 4.4.4 
   \item SRAM eTAP Phone App 2.0.9, Firmware Version 2.7.6
 \end{itemize}
 \section{Contributions}
 
-Most of the work and attack planning was done in group meetings, although we were still able to split a lot of the work up by component. Cody worked on the SRAM, Thomas worked on the Shimano, and Tolga worked on the Archer components. We wrote the paper together and everyone played with the HackRF One radio.
+Most of the work and attack planning was done in group meetings, although we were still able to split a lot of the work up by component. Together we got the Archer, Di2, and SRAM, working together, and did some of the initial replay attacks against the SRAM together. Cody wrote the code and finised testing the SRAM replay attack. Since the Shimano and Archer both relied on bluetooth, Tolga and Thomas worked together to test the Shimano Di2 and Archer Components D1x shifters. We all took part in writing the final paper and slide presentation.
 
 % \theendnotes
 
