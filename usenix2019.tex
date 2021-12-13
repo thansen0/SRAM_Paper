@@ -216,7 +216,7 @@ We attempted to break the packet encryption using a tool called Crackle \cite{cr
   \caption{Here we can see each of the three required packets in our logs}
 \end{figure}
 
-To do this, we saved packet logs containing the mobile application and shifter pairing packets and attempted to run them through crackle. Crackle was unable to break the encryption due to two missing pieces of pairing data, specifically, the Mrand and Srand values. Although it appears we were able to capture all three of the packets required by Crackle, our inability to find the Mrand and Srand values suggests Shimano uses a custom formatting which prevents this attack from working as it stands. Ultimately we weren't able to brute force the temporary key, and this all suggests to us that the Shimano Di2 is one of the more secure electronic systems on the market.
+To do this, we saved packet logs containing the mobile application and shifter pairing packets and attempted to run them through crackle. Crackle was unable to break the encryption due to two missing pieces of pairing data, specifically, the Mrand and Srand values. Although it appears we were able to capture all three of the packets required by Crackle, our inability to find the Mrand and Srand values suggests our pcap log was missing the exchange of the Long Term Key (LTK) needed to break the encryption. Ultimately we weren't able to brute force the temporary key.
 
 \subsection{SRAM Replay Attack}
 
