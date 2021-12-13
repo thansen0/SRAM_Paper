@@ -205,7 +205,7 @@ While we did not execute a DOS attack on either Archer component we can assume t
 
 Using an Ubertooth One we were able to examine the packets sent from the mobile application to the Shimano groupset (which was given the device name EWWU111). The packets that we analyzed initiated a master/slave connection and began encryption upon sharing certain cryptographic keys (Random Number, Diversifier, Initialization Vector) in-line with the BLE-Legacy security protocol. After the encryption begins, we are no longer able to discern any information from the packets including the user provided pairing pin. We also had similar issues with Apple’s Bluetooth security protocols as described in Section 5.3 above.
 
-We attempted to break the packet encryption using a tool called Crackle \cite{crackle}. Crackle exploits a design flaw in the Bluetooth pairing process allowing an attacker to brute force a temporary key relatively quickly using the packets found while listening to legitimate pairing transmissions. Since the Shimano device uses the legacy pairing (and not LE Secure Connections, introduced in Bluetooth 4.2) it should be suseptible to the attack as long as we have the minimum required three packets: LL\_ENC\_REQ, LL\_ENC\_RSP, and LL\_START\_ENC\_REQ.
+We attempted to break the packet encryption using a tool called Crackle \cite{crackle}. Crackle exploits a design flaw in the Bluetooth pairing process allowing an attacker to brute force a temporary key relatively quickly using the packets found while listening to legitimate pairing transmissions. Since the Shimano device uses the legacy pairing (and not LE Secure Connections, introduced in Bluetooth 4.2) it should be suseptible to the attack as long as we have the minimum required packets: Long Term Key (LTK) exchange of Mrand and Srand, LL\_ENC\_REQ, LL\_ENC\_RSP, and LL\_START\_ENC\_REQ.
 
 \begin{figure}[ht]
   \begin{center}
@@ -213,10 +213,10 @@ We attempted to break the packet encryption using a tool called Crackle \cite{cr
     \includegraphics[width=230pt]{images/shimano-packets.jpeg}
     \label{fig:Replay}
   \end{center}
-  \caption{Here we can see each of the three required packets in our logs}
+  \caption{Here we can see three of the required packets in our logs}
 \end{figure}
 
-To do this, we saved packet logs containing the mobile application and shifter pairing packets and attempted to run them through crackle. Crackle was unable to break the encryption due to two missing pieces of pairing data, specifically, the Mrand and Srand values. Although it appears we were able to capture all three of the packets required by Crackle, our inability to find the Mrand and Srand values suggests our pcap log was missing the exchange of the Long Term Key (LTK) needed to break the encryption. Ultimately we weren't able to brute force the temporary key.
+To do this, we saved packet logs containing the mobile application and shifter pairing packets and attempted to run them through crackle. Crackle was unable to break the encryption due to two missing pieces of pairing data, specifically, the Mrand and Srand values. Although it appears we were able to capture most of the packets required by Crackle, our inability to find the Mrand and Srand values suggests our logs were missing the exchange of the LTK needed to break the encryption. Ultimately we weren't able to brute force the temporary key.
 
 \subsection{SRAM Replay Attack}
 
