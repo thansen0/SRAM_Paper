@@ -213,7 +213,7 @@ We attempted to break the packet encryption using a tool called Crackle \cite{cr
     \includegraphics[width=230pt]{images/shimano-crackle.jpeg}
     \label{fig:Replay}
   \end{center}
-  \caption{Here you can see the captured packets, but we're missing the LE\_ENC\_REQ, LL\_ENC\_RSP, and LL\_START\_ENC\_REQ. The source address changes due to iPhone BLE MAC randomization}
+  \caption{Here you can see the captured packets, but we're missing the LE\_ENC\_REQ, LL\_ENC\_RSP, and LL\_START\_ENC\_REQ. The source address changes are due to iPhone BLE MAC randomization}
 \end{figure}
 
 To do this, we saved pcap logs containing the mobile application/shifter pairing packets and attempted to run them through crackle. Crackle was unable to break the encryption due to two missing pieces of pairing data, specifically, the Mrand and Srand values. As far as we can tell it appears the Ubertooth isn't able to capture all the required packets, and because of this we weren't able to get all the required packets to brute force the temporary key. So far we have been unable to crack the encryption despite repeated runs on different pcap logs. Ultimately, these results suggest to us that the Shimano Di2 is one of the safest electronic systems you can use today.
