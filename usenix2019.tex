@@ -92,9 +92,9 @@ Competitions also raise the stakes for the potential impact exploits may have. T
 
 Casual cyclists are also impacted. Cycling is a sport where even casual riders can go out for multi hour rides, and if their bike is disabled or their gears are changed unexpectedly a serious threat may be posed to their wellbeing, stranding them or causing them to crash. Because of these reasons we think the security of electronic shifters is an important topic that deserves research.
 
-\subsection{Major Contributions}
+\subsection{Contributions}
 
-In summary, our major contributions to the field include analyzing the security landscape of wireless bike shifters according to our threat models, and suggesting recommendations to consumers moving forward. We found the SRAM shifter was suseptible to simple replay attacks, while the Archer bluetooth authentication protocol was left completely open. Lastly we found Shimano was the most secure, rebuffing our attempts to break into it.
+In summary, our contributions to the field include analyzing the security landscape of wireless bike shifters according to our threat models, and suggesting recommendations to consumers moving forward. We found the SRAM shifter was suseptible to simple replay attacks, while the Archer Bluetooth authentication protocol was left completely open. Lastly we found Shimano was the most secure, rebuffing our attempts to break into it.
 
 \subsection{Common Attacks Against IoT Devices}
 
@@ -121,7 +121,7 @@ The setup for the D1X is largely influenced by the Bluetooth protocol. On first 
 
 \subsection{Shimano Di2}
 
-The Shimano Di2 (etube) shifters are a high performance bike system that's regularly used by professional cyclists and high end consumers. It's a wired component based off of CAN bus with an added wireless unit, the EW-WU111, which can be used to connect to a phone app over bluetooth. On your phone, you can shift the bike and change the alignment in the maintence settings. The wireless unit sits inside the frame, and can be added or removed without change to the shifters functionality.
+The Shimano Di2 (etube) shifters are a high performance bike system that's regularly used by professional cyclists and high end consumers. It's a wired component based off of CAN bus with an added wireless unit, the EW-WU111, which can be used to connect to a phone app over Bluetooth. On your phone, you can shift the bike and change the alignment in the maintence settings. The wireless unit sits inside the frame, and can be added or removed without change to the shifters functionality.
 
 \begin{figure}[ht]
   \begin{center}
@@ -164,13 +164,13 @@ We define a successful attack as making a victim's bike shift to an unintended g
   \label{tab:btauth}
 \end{table}
 
-All of our components provide Bluetooth connectivity and have companion mobile applications, so the user can configure or shift from their mobile phone. Like all Bluetooth products, a pairing process must be done before the user can interact with their device. Preventing unintended users from connecting is more important in biking shifters than traditional bluetooth devices since a sudden change of gear when the biker is climbing or performing stunts can cause injuries to the riders. In addition, changes made to the gear settings from mobile applications aren't visible outside of the application. Our line up of components employ various degrees of authentication to prevent this from happenning. Table \ref{tab:btauth} summarize the components' authentication methods and their mobile apps' capabilities.
+All of our components provide Bluetooth connectivity and have companion mobile applications, so the user can configure or shift from their mobile phone. Like all Bluetooth products, a pairing process must be done before the user can interact with their device. Preventing unintended users from connecting is more important in biking shifters than traditional Bluetooth devices since a sudden change of gear when the biker is climbing or performing stunts can cause injuries to the riders. In addition, changes made to the gear settings from mobile applications aren't visible outside of the application. Our line up of components employ various degrees of authentication to prevent this from happenning. Table \ref{tab:btauth} summarize the components' authentication methods and their mobile apps' capabilities.
 
 \paragraph{Archer D1X}
 The Archer D1X groupset relies on the Bluetooth communication protocol for shifter/shifting-box communication along with communication with the mobile application. Once the shifting box is powered on anybody with the Archer mobile application can pair with it. There are no pairing authentication steps and this lack of validation means that those other than the legitimate owner can connect. Once an adversary has paired with the shifting box they can create custom gear-switch settings that would be harmful to the user. An adversary could swap the higher and lower gear switch buttons causing the cyclist to experience unexpected dangerous behavior. Gear setting changes made through the application are invisible to the cyclist and there is no mechanism of alerting the owner of such changes. The Bluetooth protocol only allows for one active device at a time meaning that only one device can be connected to the shifting box at a time. If an adversary were to pair with the shifting box through the Archer mobile application during a competition they would be able to block all hand shifter communication thus ceasing functionality.
 
 \paragraph{Shimano}
-Shimano has one of the most robust pairing systems of the tested gear sets. Although it defaults to no password, users can add up to a 6 digit password which prevents unauthorized users from logging on, and failed sign on attempts require a restart of the device, preventing brute force attacks or repeated sign on attempts from malicious users. Although this will deny bluetooth service to the owner until they restart, they are still able to shift the bike using the shifter even after the bluetooth users get locked out.
+Shimano has one of the most robust pairing systems of the tested gear sets. Although it defaults to no password, users can add up to a 6 digit password which prevents unauthorized users from logging on, and failed sign on attempts require a restart of the device, preventing brute force attacks or repeated sign on attempts from malicious users. Although this will deny Bluetooth service to the owner until they restart, they are still able to shift the bike using the shifter even after the Bluetooth users get locked out.
 
 It also features updatable firmware through the app, where it first downloads the firmware onto the app, and then uploads it to the device. Firmware can be updated indidvidually for each device. Although we didn't test firmware attacks, this suggests it should be possible to spoof the source upload your own firmware onto the device.
 
@@ -304,9 +304,9 @@ During the research we used the following firmware versions:
   \item Shimano Di2 BT-DN110 4.4.4 
   \item SRAM eTAP Phone App 2.0.9, Firmware Version 2.7.6
 \end{itemize}
-\section{Contributions}
+\section{Group Contributions}
 
-Most of the work and attack planning was done in group meetings, although we were still able to split a lot of the work up by component. Together we got the Archer, Di2, and SRAM, working together, and did some of the initial replay attacks against the SRAM together. Cody wrote the code and finised testing the SRAM replay attack. Since the Shimano and Archer both relied on bluetooth, Tolga and Thomas worked together to test the Shimano Di2 and Archer Components D1x shifters. We all took part in writing the final paper and slide presentation.
+Most of the work and attack planning was done in group meetings, although we were still able to split a lot of the work up by component. Together we got the Archer, Di2, and SRAM, working together, and did some of the initial replay attacks against the SRAM together. Cody wrote the code and finised testing the SRAM replay attack. Since the Shimano and Archer both relied on Bluetooth, Tolga and Thomas worked together to test the Shimano Di2 and Archer Components D1x shifters and examine their Bluetooth protocols. We all took part in writing the final paper and slide presentation.
 
 % \theendnotes
 
