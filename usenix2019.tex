@@ -203,13 +203,20 @@ While we did not execute a DOS attack on either Archer component we can assume t
 
 \subsection{Shimano Packet Examination}
 
-Using an Ubertooth One we were able to examine the packets sent from the mobile application to the Shimano groupset (which was given the device name EWWU111). The packets that we analyzed initiated a master/slave connection and began encryption upon sharing certain cryptographic keys (Random Number, Diversifier, Initialization Vector) in-line with the BLE-Legacy security protocol[cite]. After the encryption begins, we are no longer able to discern any information from the packets including the user provided pairing pin. We also had similar issues with Apple’s Bluetooth security protocols as described in Section 5.3 above. 
+Using an Ubertooth One we were able to examine the packets sent from the mobile application to the Shimano groupset (which was given the device name EWWU111). The packets that we analyzed initiated a master/slave connection and began encryption upon sharing certain cryptographic keys (Random Number, Diversifier, Initialization Vector) in-line with the BLE-Legacy security protocol. After the encryption begins, we are no longer able to discern any information from the packets including the user provided pairing pin. We also had similar issues with Apple’s Bluetooth security protocols as described in Section 5.3 above. 
 
-We attempted to break the packet encryption using a tool called Crackle \cite{crackle}. Crackle exploits a design flaw in the Bluetooth pairing process allowing an attacker to brute force a temporary key relatively quickly using the packets found while listening to legitimate pairing transmissions. To do this, we saved pcap logs containing the mobile application/shifter pairing packets and attempted to run them through crackle. Crackle was unable to break the encryption due to several missing pieces of pairing data, specifically, the Mrand and Srand values. So far we have been unable to crack the encryption despite repeated runs on different pcap logs though we believe that with more time we could capture the right values. 
+We attempted to break the packet encryption using a tool called Crackle \cite{crackle}. Crackle exploits a design flaw in the Bluetooth pairing process allowing an attacker to brute force a temporary key relatively quickly using the packets found while listening to legitimate pairing transmissions.
 
-DON'T PUBLISH THIS PARAGRAPH AS FINAL DRAFT, DOS HASN'T WORKED YET, THESE ARE MY ASSUMPTIONS Lastly we attempted to confuse the device using a DoS attack. Although all wireless devices are suseptible to DoS, one thought we had was that if we flood the wireless unit with ping requests, it might either flood the CAN bus network or prevent other CAN bus packets from passing between the wireless unit and other units (such as the shifter and derailleur).. To do this we ran blue doser against the unit, and tried moving the wireless unit to two different positions on the Di2 network. In both cases we weren't able to prevent manual shifts from shifter, however it did disconnect our phones as expected.
+\begin{figure}[ht]
+  \begin{center}
+    \centering
+    \includegraphics[width=230pt]{images/shimano-crackle.jpeg}
+    \label{fig:Replay}
+  \end{center}
+  \caption{Here you can see the captured packets, but we're missing the LE\_ENC\_REQ, LL\_ENC\_RSP, and LL\_START\_ENC\_REQ. The source address changes due to iPhone BLE MAC randomization}
+\end{figure}
 
-These results suggest to us that the Shimano Di2 is one of the safest electronic systems you can use today.
+To do this, we saved pcap logs containing the mobile application/shifter pairing packets and attempted to run them through crackle. Crackle was unable to break the encryption due to two missing pieces of pairing data, specifically, the Mrand and Srand values. As far as we can tell it appears the Ubertooth isn't able to capture all the required packets, and because of this we weren't able to get all the required packets to brute force the temporary key. So far we have been unable to crack the encryption despite repeated runs on different pcap logs. Ultimately, these results suggest to us that the Shimano Di2 is one of the safest electronic systems you can use today.
 
 \subsection{SRAM Replay Attack}
 
