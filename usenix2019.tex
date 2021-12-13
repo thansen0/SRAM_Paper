@@ -207,18 +207,6 @@ Using an Ubertooth One we were able to examine the packets sent from the mobile 
 
 We attempted to break the packet encryption using a tool called Crackle \cite{crackle}. Crackle exploits a design flaw in the Bluetooth pairing process allowing an attacker to brute force a temporary key relatively quickly using the packets found while listening to legitimate pairing transmissions.
 
-<<<<<<< HEAD
-=======
-\begin{figure}[ht]
-  \begin{center}
-    \centering
-    \includegraphics[width=230pt]{images/shimano-crackle.jpeg}
-    \label{fig:crackle}
-  \end{center}
-  \caption{Here you can see the captured packets, but we're missing the LE\_ENC\_REQ, LL\_ENC\_RSP, and LL\_START\_ENC\_REQ. The source address changes are due to iPhone BLE MAC randomization}
-\end{figure}
-
->>>>>>> 1c2011c999b48f08c8028a20579b54403272f8dc
 To do this, we saved pcap logs containing the mobile application/shifter pairing packets and attempted to run them through crackle. Crackle was unable to break the encryption due to two missing pieces of pairing data, specifically, the Mrand and Srand values. As far as we can tell it appears the Ubertooth isn't able to capture all the required packets, and because of this we weren't able to get all the required packets to brute force the temporary key. So far we have been unable to crack the encryption despite repeated runs on different pcap logs. Ultimately, these results suggest to us that the Shimano Di2 is one of the safest electronic systems you can use today.
 
 \subsection{SRAM Replay Attack}
@@ -288,11 +276,7 @@ In our paper, we presented a novel threat model that focuses on remote attacks t
 
 \section{Future Work}
 
-<<<<<<< HEAD
 The security landscape of wireless shifters remains largely unstudied and there are several specific areas that we would like to study further. Firstly, we would like to examine the firmware of the shifters for specific vulnerabilities. We would also like to the examine the security of firmware updates and see whether an adversary could load malicious code into the shifter. While we did examine the shifting packets, we would like to do further analysis. Specifically, we would like to spend more time configuring crackle and testing it against different logs. We would also like to attempt MITM and replay attacks with the packets. We would also like to configure a phone that doesn’t have Bluetooth security protocols such as those implemented by Apple. Lastly, we would like to attempt to hack Shimano’s new wireless shifting groupset~ \cite{newshimano}. While the one that we analyzed could connect to a mobile application for configuration the new groupset will have wireless communication between the shifter and derailleur. This increased attack surface opens up the possibility of a replay attack such as the SRAM one being possible.
-=======
-The security landscape of wireless shifters remains largely unstudied and there are several specific areas that we would like to study further. Firstly, we would like to examine the firmware of the shifters for specific vulnerabilities. We would also like to examine the security of firmware updates and see whether an adversary could load malicious code into the shifter. In our study, we didn’t examine the shifting packets, and this would also be an area of interest in the future. Recording the first-time pairing process for the Archer components and analyzing the handshake could give us a greater understanding of how to spoof packets. We could also attempt to crash the system from afar by creating packets designed to create overflow errors. Lastly, we would like to attempt to hack Shimano’s new wireless shifting groupset~ \cite{newshimano}. While the one that we analyzed could connect to a mobile application for configuration the new groupset will have wireless communication between the shifter and derailleur. This increased attack surface opens up the possibility of a replay attack such as the SRAM one being possible.
->>>>>>> 1c2011c999b48f08c8028a20579b54403272f8dc
 
   {\normalsize \bibliographystyle{acm}
     \bibliography{references}}
@@ -312,11 +296,7 @@ During the research we used the following firmware versions:
 \end{itemize}
 \section{Group Contributions}
 
-<<<<<<< HEAD
-Most of the work and attack planning was done in group meetings, although we were still able to split a lot of the work up by component. Together we got the Archer, Di2, and SRAM, working together, and did some of the initial replay attacks against the SRAM together. Cody wrote the code and finished testing the SRAM replay attack. Since the Shimano and Archer both relied on Bluetooth, Tolga and Thomas worked together to test the Shimano Di2 and Archer Components D1x shifters and examine their Bluetooth protocols. We all took part in writing the final paper and slide presentation.
-=======
-Most of the work and attack planning was done in group meetings, although we were still able to split a lot of the work up by component. Together we got the Archer, Di2, and SRAM working, and did some of the initial replay attacks against the SRAM together. Cody wrote the code and finised testing the SRAM replay attack and examine its bluetooth pairing properties. Since the Shimano and Archer both relied on Bluetooth, Tolga and Thomas worked together to test the Shimano Di2 and Archer Components D1x shifters and examine their Bluetooth protocols. We all took part in writing the final paper and slide presentation.
->>>>>>> 1c2011c999b48f08c8028a20579b54403272f8dc
+Most of the work and attack planning was done in group meetings, although we were still able to split a lot of the work up by component. Together we got the Archer, Di2, and SRAM working, and did some of the initial replay attacks against the SRAM together. Cody wrote the code and finished testing the SRAM replay attack and examine its bluetooth pairing properties. Since the Shimano and Archer both relied on Bluetooth, Tolga and Thomas worked together to test the Shimano Di2 and Archer Components D1x shifters and examine their Bluetooth protocols. We all took part in writing the final paper and slide presentation.
 
 % \theendnotes
 
