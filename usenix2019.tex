@@ -117,7 +117,7 @@ The ushering in of new technology to bicycles is reminiscent of the automotive i
 
 The Archer D1X~\cite{Archer} is a modular electronic shifting system that can be integrated into a wide array of derailleur-shifting groupsets. While the other two components groups that we study come with custom derailleurs that are wirelessly enabled, the D1X focuses on integrating into existing systems. It is installed near the derailleur with the shifting cables routing through it. This allows the D1X to change the tensions of the shifting cables and trigger gear changes. The electronic shifting box is connected to the hand shifters through Bluetooth allowing the user to send shifting signals. Of note, the D1X is the only component that we will study that utilizes the Bluetooth protocol for communication between the shifter and shifting box. The Archer D1X does not support any firmware updates.
 
-The setup for the D1X is largely influenced by the Bluetooth protocol. On first use, the hand shifter needs to pair with the users phone using the mobile application~ \cite{ArcherApp}. After the user has paired the shifter they need to initiate a remote pairing through the application allowing the shifting box to pair with the hand shifter. This is a one time pairing process, subsequent uses do not require these steps. The user can connect to the shifting box through the Archer mobile application. This is done by turning on the shifting box and going to the Archer application to pair. Through the application the user can set shifting profiles allowing them to dictate specific gears that should be changed upon a shifting command.
+The setup for the D1X is largely influenced by the Bluetooth protocol. On first use, the hand shifter needs to pair with the users' phone using the mobile application~ \cite{ArcherApp}. After the user has paired the shifter they need to initiate a remote pairing through the application allowing the shifting box to pair with the hand shifter. This is a one time pairing process, subsequent uses do not require these steps. The user can connect to the shifting box through the Archer mobile application. This is done by turning on the shifting box and going to the Archer application to pair. Through the application, the user can set shifting profiles allowing them to dictate specific gears that should be changed upon a shifting command.
 
 \subsection{Shimano Di2}
 
@@ -197,16 +197,28 @@ Even though SRAM's app does not provide direct shifting capabilities, they also 
 
 Using an Ubertooth One we were able to capture and examine the pairing packets between the mobile application and the shifting box as well as the packets sent by the hand shifter to the shifting box. After the initial pairing process, the BLE packets become encrypted and the data in the packets is unreadable.
 
-During our examination of the mobile applications sent packets we were hindered by the various security measures that Apple has implemented in its Bluetooth protocols \cite{appleblesecurity}. This includes spoofing the MAC address and changing it periodically making it difficult to discern which packets are meant for the Archer D1X shifter. 
+During our examination of the mobile applications sent packets we were hindered by the various security measures that Apple has implemented in its Bluetooth protocols \cite{appleblesecurity}. This includes spoofing the MAC address and changing it periodically making it difficult to discern which packets are meant for the Archer D1X shifter.
 
-While we did not execute a DOS attack on either Archer component we can assume that it would be successful since prior research has shown success against all devices when large L2CAP packets are flooded \cite{bluesmack}. The only mitigations that currently exist against this attack are disabling Bluetooth when not in use and setting your device to non-discoverable mode. However, using the Ubertooth we can find the devices MAC when it is operating in non-discoverable mode. 
+While we did not execute a DOS attack on either Archer component we can assume that it would be successful since prior research has shown success against all devices when large L2CAP packets are flooded \cite{bluesmack}. The only mitigations that currently exist against this attack are disabling Bluetooth when not in use and setting your device to non-discoverable mode. However, using the Ubertooth we can find the devices MAC when it is operating in non-discoverable mode.
 
 \subsection{Shimano Packet Examination}
 
-Using an Ubertooth One we were able to examine the packets sent from the mobile application to the Shimano groupset (which was given the device name EWWU111). The packets that we analyzed initiated a master/slave connection and began encryption upon sharing certain cryptographic keys (Random Number, Diversifier, Initialization Vector) in-line with the BLE-Legacy security protocol. After the encryption begins, we are no longer able to discern any information from the packets including the user provided pairing pin. We also had similar issues with Apple’s Bluetooth security protocols as described in Section 5.3 above. 
+Using an Ubertooth One we were able to examine the packets sent from the mobile application to the Shimano groupset (which was given the device name EWWU111). The packets that we analyzed initiated a master/slave connection and began encryption upon sharing certain cryptographic keys (Random Number, Diversifier, Initialization Vector) in-line with the BLE-Legacy security protocol. After the encryption begins, we are no longer able to discern any information from the packets including the user provided pairing pin. We also had similar issues with Apple’s Bluetooth security protocols as described in Section 5.3 above.
 
 We attempted to break the packet encryption using a tool called Crackle \cite{crackle}. Crackle exploits a design flaw in the Bluetooth pairing process allowing an attacker to brute force a temporary key relatively quickly using the packets found while listening to legitimate pairing transmissions.
 
+<<<<<<< HEAD
+=======
+\begin{figure}[ht]
+  \begin{center}
+    \centering
+    \includegraphics[width=230pt]{images/shimano-crackle.jpeg}
+    \label{fig:crackle}
+  \end{center}
+  \caption{Here you can see the captured packets, but we're missing the LE\_ENC\_REQ, LL\_ENC\_RSP, and LL\_START\_ENC\_REQ. The source address changes are due to iPhone BLE MAC randomization}
+\end{figure}
+
+>>>>>>> 1c2011c999b48f08c8028a20579b54403272f8dc
 To do this, we saved pcap logs containing the mobile application/shifter pairing packets and attempted to run them through crackle. Crackle was unable to break the encryption due to two missing pieces of pairing data, specifically, the Mrand and Srand values. As far as we can tell it appears the Ubertooth isn't able to capture all the required packets, and because of this we weren't able to get all the required packets to brute force the temporary key. So far we have been unable to crack the encryption despite repeated runs on different pcap logs. Ultimately, these results suggest to us that the Shimano Di2 is one of the safest electronic systems you can use today.
 
 \subsection{SRAM Replay Attack}
@@ -265,18 +277,22 @@ subsequent attacks will fail. However, there are possible ways to optimize this 
 
 Our first recommendation is the implementation of passcodes/PINS for pairing with smartphones. The Shimano Di2 implemented a 6 digit PIN for pairing that we found to be an effective measure for preventing basic attacks such as the one presented for the Archer in Section 5.2. While previous research by Shaked and Wool~ \cite{bluepin} has demonstrated that these PIN’s are easily crackable they present a first line of defense and implementations such as the Shimano’s require the attacker to manually restart the pairing process upon incorrect entry. Thus, we recommend that all connections to the shifters require a PIN and have a mechanism for temporarily locking out devices after incorrect entry.
 
-Our second recommendation is the implementation of time stamps in shifting communication packets to prevent replay attacks such as the one demonstrated in 5. The inclusion of a time stamp in every packet would allow the systems to detect when a packet has been replayed later in time. Another possible approach would be the creation of session keys between the shifter and shifting box. These session keys would be generated every packet and a subsequent replay would be denied. Interestingly, the SRAM groupset creates a similar encryption code but only utilizes it to prevent the mixing of shifting signals from other bikes with the same groupset~ \cite{etapsecure}.
+Our second recommendation is the implementation of timestamps in shifting communication packets to prevent replay attacks such as the one demonstrated in 5. The inclusion of a timestamp in every packet would allow the systems to detect when a packet has been replayed later in time. Another possible approach would be the creation of session keys between the shifter and shifting box. These session keys would be generated every packet and a subsequent replay would be denied. Interestingly, the SRAM groupset creates a similar encryption code but only utilizes it to prevent the mixing of shifting signals from other bikes with the same groupset~ \cite{etapsecure}.
 
 
 \section{Conclusions}
 
 The shifters that we examined represent the forefront of wireless shifting in bicycles. As the field matures and consumer adoption increases we can expect security to be a larger concern.
-In our paper we presented a novel threat model that focuses on remote attacks that pose a direct threat to the user through unexpected shifting. In accordance with our threat model we present several Bluetooth pairing vulnerabilities along with a replay attack on the SRAM groupset. We also discuss potential countermeasures to these vulnerabilities such as pairing PINS and session keys/timestamps for packets. Our findings represent the first analysis of the security landscape of wireless shifting in bicycles.
+In our paper, we presented a novel threat model that focuses on remote attacks that pose a direct threat to the user through unexpected shifting. In accordance with our threat model, we present several Bluetooth pairing vulnerabilities along with a replay attack on the SRAM groupset. We also discuss potential countermeasures to these vulnerabilities such as pairing PINS and session keys/timestamps for packets. Our findings represent the first analysis of the security landscape of wireless shifting in bicycles.
 
 
 \section{Future Work}
 
+<<<<<<< HEAD
 The security landscape of wireless shifters remains largely unstudied and there are several specific areas that we would like to study further. Firstly, we would like to examine the firmware of the shifters for specific vulnerabilities. We would also like to the examine the security of firmware updates and see whether an adversary could load malicious code into the shifter. While we did examine the shifting packets, we would like to do further analysis. Specifically, we would like to spend more time configuring crackle and testing it against different logs. We would also like to attempt MITM and replay attacks with the packets. We would also like to configure a phone that doesn’t have Bluetooth security protocols such as those implemented by Apple. Lastly, we would like to attempt to hack Shimano’s new wireless shifting groupset~ \cite{newshimano}. While the one that we analyzed could connect to a mobile application for configuration the new groupset will have wireless communication between the shifter and derailleur. This increased attack surface opens up the possibility of a replay attack such as the SRAM one being possible.
+=======
+The security landscape of wireless shifters remains largely unstudied and there are several specific areas that we would like to study further. Firstly, we would like to examine the firmware of the shifters for specific vulnerabilities. We would also like to examine the security of firmware updates and see whether an adversary could load malicious code into the shifter. In our study, we didn’t examine the shifting packets, and this would also be an area of interest in the future. Recording the first-time pairing process for the Archer components and analyzing the handshake could give us a greater understanding of how to spoof packets. We could also attempt to crash the system from afar by creating packets designed to create overflow errors. Lastly, we would like to attempt to hack Shimano’s new wireless shifting groupset~ \cite{newshimano}. While the one that we analyzed could connect to a mobile application for configuration the new groupset will have wireless communication between the shifter and derailleur. This increased attack surface opens up the possibility of a replay attack such as the SRAM one being possible.
+>>>>>>> 1c2011c999b48f08c8028a20579b54403272f8dc
 
   {\normalsize \bibliographystyle{acm}
     \bibliography{references}}
@@ -291,12 +307,16 @@ During the research we used the following firmware versions:
   \item Shimano Di2 ST-R8050 3.2.1
   \item Shimano Di2 EW-RS910 3.1.2
   \item Shimano Di2 EW-WU111 3.1.2
-  \item Shimano Di2 BT-DN110 4.4.4 
+  \item Shimano Di2 BT-DN110 4.4.4
   \item SRAM eTAP Phone App 2.0.9, Firmware Version 2.7.6
 \end{itemize}
 \section{Group Contributions}
 
+<<<<<<< HEAD
 Most of the work and attack planning was done in group meetings, although we were still able to split a lot of the work up by component. Together we got the Archer, Di2, and SRAM, working together, and did some of the initial replay attacks against the SRAM together. Cody wrote the code and finished testing the SRAM replay attack. Since the Shimano and Archer both relied on Bluetooth, Tolga and Thomas worked together to test the Shimano Di2 and Archer Components D1x shifters and examine their Bluetooth protocols. We all took part in writing the final paper and slide presentation.
+=======
+Most of the work and attack planning was done in group meetings, although we were still able to split a lot of the work up by component. Together we got the Archer, Di2, and SRAM working, and did some of the initial replay attacks against the SRAM together. Cody wrote the code and finised testing the SRAM replay attack and examine its bluetooth pairing properties. Since the Shimano and Archer both relied on Bluetooth, Tolga and Thomas worked together to test the Shimano Di2 and Archer Components D1x shifters and examine their Bluetooth protocols. We all took part in writing the final paper and slide presentation.
+>>>>>>> 1c2011c999b48f08c8028a20579b54403272f8dc
 
 % \theendnotes
 
