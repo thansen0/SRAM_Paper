@@ -113,25 +113,6 @@ The ushering in of new technology to bicycles is reminiscent of the automotive i
 % \section{Threat Model}
 
 \section{Devices}
-\subsection{Archer Components D1X}
-
-The Archer D1X~\cite{Archer} is a modular electronic shifting system that can be integrated into a wide array of derailleur-shifting groupsets. While the other two components groups that we study come with custom derailleurs that are wirelessly enabled, the D1X focuses on integrating into existing systems. It is installed near the derailleur with the shifting cables routing through it. This allows the D1X to change the tensions of the shifting cables and trigger gear changes. The electronic shifting box is connected to the hand shifters through Bluetooth allowing the user to send shifting signals. Of note, the D1X is the only component that we will study that utilizes the Bluetooth protocol for communication between the shifter and shifting box. The Archer D1X does not support any firmware updates.
-
-The setup for the D1X is largely influenced by the Bluetooth protocol. On first use, the hand shifter needs to pair with the users' phone using the mobile application~ \cite{ArcherApp}. After the user has paired the shifter they need to initiate a remote pairing through the application allowing the shifting box to pair with the hand shifter. This is a one time pairing process, subsequent uses do not require these steps. The user can connect to the shifting box through the Archer mobile application. This is done by turning on the shifting box and going to the Archer application to pair. Through the application, the user can set shifting profiles allowing them to dictate specific gears that should be changed upon a shifting command.
-
-\subsection{Shimano Di2}
-
-The Shimano Di2 (etube) shifters are a high performance bike system that's regularly used by professional cyclists and high end consumers. It's a wired component based off of CAN bus with an added wireless unit, the EW-WU111, which can be used to connect to a phone app over Bluetooth. On your phone, you can shift the bike and change the alignment in the maintence settings. The wireless unit sits inside the frame, and can be added or removed without change to the shifters functionality.
-
-\begin{figure}[ht]
-  \begin{center}
-    \centering
-    \includegraphics[width=0.4\textwidth]{images/IMG_5264_Di2.jpg}
-    \label{fig:Di2Setup}
-  \end{center}
-  \caption{The battery sits inside the seat post while the rear derailleur sits on the back wheel. The junctions sit at mount points in the frame/handlebar, and the wireless unit floats freely in the frame}
-\end{figure}
-
 
 \subsection{SRAM Force eTap AXS}
 The SRAM Force eTap AXS \cite{etap} is marketed toward professional, competitive bikers, and is priced the most premium out of all of our components. It works completely wirelessly like the Archer Components D1X meaning there is no need for physical wire between the derailleur and the shifters. The SRAM is also the only one in our lineup that uses a proprietary protocol. The derailleur and the shifter communicate using the in-house AIREA protocol that operates within the 2.475Ghz frequency range. During a press event of this products, SRAM claims that  the protocol uses 128-bit rolling encryption and the system is "more secure than any cash machine" \cite{phillips2015SRAM}. The system also provides Bluetooth for connecting to a smartphone and ANT+ to send information to a bicycle computer.
@@ -156,8 +137,6 @@ We define a successful attack as making a victim's bike shift to an unintended g
   \begin{tabular}{|l|l|l|l|}
     \hline
             & \begin{tabular}[c]{@{}l@{}}Pairing \\ authentication\\ method\end{tabular} & \begin{tabular}[c]{@{}l@{}}Direct shift\\ from app\end{tabular} & \begin{tabular}[c]{@{}l@{}}Configure harmful\\ setting from\\ app\end{tabular} \\ \hline
-    Archer  & None                          & Yes                           & Yes                           \\ \hline
-    Shimano & 6 Digit Pin                   & Yes                           & Yes                           \\ \hline
     SRAM    & Button                        & No                            & Yes                           \\ \hline
   \end{tabular}
   \caption{Component Bluetooth pairing authentication methods and app capabilities}
@@ -165,14 +144,6 @@ We define a successful attack as making a victim's bike shift to an unintended g
 \end{table}
 
 All of our components provide Bluetooth connectivity and have companion mobile applications, so the user can configure or shift from their mobile phone. Like all Bluetooth products, a pairing process must be done before the user can interact with their device. Preventing unintended users from connecting is more important in biking shifters than traditional Bluetooth devices since a sudden change of gear when the biker is climbing or performing stunts can cause injuries to the riders. In addition, changes made to the gear settings from mobile applications aren't visible outside of the application. Our line up of components employ various degrees of authentication to prevent this from happenning. Table \ref{tab:btauth} summarize the components' authentication methods and their mobile apps' capabilities.
-
-\paragraph{Archer D1X}
-The Archer D1X groupset relies on the Bluetooth communication protocol for shifter/shifting-box communication along with communication with the mobile application. Once the shifting box is powered on anybody with the Archer mobile application can pair with it. There are no pairing authentication steps and this lack of validation means that those other than the legitimate owner can connect. Once an adversary has paired with the shifting box they can create custom gear-switch settings that would be harmful to the user. An adversary could swap the higher and lower gear switch buttons causing the cyclist to experience unexpected dangerous behavior. Gear setting changes made through the application are invisible to the cyclist and there is no mechanism of alerting the owner of such changes. The Bluetooth protocol only allows for one active device at a time meaning that only one device can be connected to the shifting box at a time.
-
-\paragraph{Shimano}
-Shimano has one of the most robust pairing systems of the tested gear sets. Although it defaults to no password, users can add up to a 6 digit password which prevents unauthorized users from logging on, and failed sign on attempts require a restart of the device, preventing brute force attacks or repeated sign on attempts from malicious users. Although this will deny Bluetooth service to the owner until they restart, they are still able to shift the bike using the shifter even after the Bluetooth users get locked out.
-
-It also features updatable firmware through the app, where it first downloads the firmware onto the app, and then uploads it to the device. Firmware can be updated indidvidually for each device. Although we didn't test firmware attacks, this suggests it should be possible to spoof the source upload your own firmware onto the device.
 
 \paragraph{SRAM}
 The SRAM uses a more traditional pairing mechanism where the app will prompt the user to physically press a button on the derailleur to authorize a connection. The system can also only pair with one smartphone at a time, therefore, when another device wants to connect, a physical button press is required even if that device had paired with the system before. While this is the industry standard of such Bluetooth pairing process, several key differences make the solution not ideal for an electronic shifter.
@@ -192,31 +163,6 @@ The SRAM uses a more traditional pairing mechanism where the app will prompt the
 \end{figure}
 
 Even though SRAM's app does not provide direct shifting capabilities, they also provide a way to swap the higher and lower gear switch, the adversary can wait for the exact moment to swap the switch thus poses threat to the rider. Furthermore, the system will not actively alert the owner that a pairing event had happened. The only way for the owner to notice is when they want to configure their bike as the app will prompt the user to re-pair to the bike. Even then, the user might not understand that their bike had been paired with other devices and not implement any safety measure.
-
-\subsection{Archer Packet Examination}
-
-Using an Ubertooth One we were able to capture and examine the pairing packets between the mobile application and the shifting box as well as the packets sent by the hand shifter to the shifting box. After the initial pairing process, the BLE packets become encrypted and the data in the packets is unreadable.
-
-During our examination of the mobile applications sent packets we were hindered by the various security measures that Apple has implemented in its Bluetooth protocols \cite{appleblesecurity}. This includes spoofing the MAC address and changing it periodically making it difficult to discern which packets are meant for the Archer D1X shifter.
-
-While we did not execute a DOS attack on either Archer component we can assume that it would be successful since prior research has shown success against all devices when large L2CAP packets are flooded \cite{bluesmack}. The only mitigations that currently exist against this attack are disabling Bluetooth when not in use and setting your device to non-discoverable mode. However, using the Ubertooth we can find the devices MAC when it is operating in non-discoverable mode.
-
-\subsection{Shimano Packet Examination}
-
-Using an Ubertooth One we were able to examine the packets sent from the mobile application to the Shimano groupset (which was given the device name EWWU111). The packets that we analyzed initiated a master/slave connection and began encryption upon sharing certain cryptographic keys (Random Number, Diversifier, Initialization Vector) in-line with the BLE-Legacy security protocol. After the encryption begins, we are no longer able to discern any information from the packets including the user provided pairing pin. We also had similar issues with Apple’s Bluetooth security protocols as described in Section 5.3 above.
-
-We attempted to break the packet encryption using a tool called Crackle \cite{crackle}. Crackle exploits a design flaw in the Bluetooth pairing process allowing an attacker to brute force a temporary key relatively quickly using the packets found while listening to legitimate pairing transmissions. Since the Shimano device uses the legacy pairing (and not LE Secure Connections, introduced in Bluetooth 4.2) it should be suseptible to the attack as long as we have the minimum required packets: Long Term Key (LTK) exchange of Mrand and Srand, LL\_ENC\_REQ, LL\_ENC\_RSP, and LL\_START\_ENC\_REQ.
-
-\begin{figure}[ht]
-  \begin{center}
-    \centering
-    \includegraphics[width=230pt]{images/shimano-packets.jpeg}
-    \label{fig:Replay}
-  \end{center}
-  \caption{Here we can see three of the required packets in our logs}
-\end{figure}
-
-To do this, we saved packet logs containing the mobile application and shifter pairing packets and attempted to run them through crackle. Crackle was unable to break the encryption due to two missing pieces of pairing data, specifically, the Mrand and Srand values. Although it appears we were able to capture most of the packets required by Crackle, our inability to find the Mrand and Srand values suggests our logs were missing the exchange of the LTK needed to break the encryption. Ultimately we weren't able to brute force the temporary key.
 
 \subsection{SRAM Replay Attack}
 
@@ -294,13 +240,6 @@ The security landscape of wireless shifters remains largely unstudied and there 
 \section{Appendix}
 During the research we used the following firmware versions:
 \begin{itemize}
-  \item Archer D1X Phone App 1.8, No Visible Firmware version
-  \item Shimano E-TUBE Phone App 5.0.2
-  \item Shimano Di2 RD-R8050-GS 3.3.0
-  \item Shimano Di2 ST-R8050 3.2.1
-  \item Shimano Di2 EW-RS910 3.1.2
-  \item Shimano Di2 EW-WU111 3.1.2
-  \item Shimano Di2 BT-DN110 4.4.4
   \item SRAM eTAP Phone App 2.0.9, Firmware Version 2.7.6
 \end{itemize}
 \section{Group Contributions}
